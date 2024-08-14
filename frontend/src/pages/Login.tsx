@@ -1,5 +1,7 @@
+import Form from "../components/Form.tsx";
+
 function Login() {
-    return <div>LOGIN</div>
+    return <Form route="authenticate" method="login"/>
 }
 
 export default Login;

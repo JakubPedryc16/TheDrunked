@@ -1,5 +1,7 @@
+import Form from "../components/Form.tsx";
+
 function Register() {
-    return <div>REGISTER</div>
+    return <Form route="register" method="register"/>
 }
 
 export default Register;
