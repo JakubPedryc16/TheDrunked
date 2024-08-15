@@ -8,6 +8,10 @@ interface FormProps {
     method: string;
 }
 
+interface TokenData {
+    token: string;
+}
+
 function Form(props: FormProps) {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -19,9 +23,9 @@ function Form(props: FormProps) {
         e.preventDefault();
 
         try {
-            const res = await api.post(props.route, {username, password})
-            if (props.method === "login") {
-                localStorage.setItem("token", res.data)
+            const res = await api.post<TokenData>(props.route, {username, password})
+            if (props.method === "login" && res.data.token) {
+                localStorage.setItem("token", res.data.token)
                 navigate("/")
             }
             else {
