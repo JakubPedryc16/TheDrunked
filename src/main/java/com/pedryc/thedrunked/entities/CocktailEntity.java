@@ -4,6 +4,10 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
+
 @Entity(name = "cocktails")
 @Setter
 @Getter
@@ -23,8 +27,18 @@ public class CocktailEntity {
     @Column(name = "cocktail_image")
     private String image;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "user_id")
     private UserEntity userId;
 
+    @ManyToMany(cascade = {CascadeType.ALL})
+    @JoinTable(
+            name = "cocktails_tags",
+            joinColumns = { @JoinColumn(name = "cocktail_id")},
+            inverseJoinColumns = { @JoinColumn(name = "tag_id")}
+    )
+    List<TagEntity> cocktailTags = new ArrayList<>();
+
+    @OneToMany(mappedBy = "cocktail")
+    private List<CocktailsIngredientsEntity> cocktailIngredients = new ArrayList<>();
 }
