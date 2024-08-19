@@ -22,6 +22,6 @@ public class TagEntity {
     private String tagName;
 
     @ManyToMany(mappedBy = "cocktailTags")
-    @JsonIgnore
+
     private List<CocktailEntity> cocktails = new ArrayList<>();
 }

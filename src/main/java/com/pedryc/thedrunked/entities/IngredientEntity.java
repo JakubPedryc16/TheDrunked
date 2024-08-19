@@ -26,6 +26,6 @@ public class IngredientEntity {
     private String ingredientImage;
 
     @OneToMany(mappedBy = "ingredient")
-    @JsonIgnore
+
     private List<CocktailsIngredientsEntity> ingredientCocktails = new ArrayList<>();
 }
