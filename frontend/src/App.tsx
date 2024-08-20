@@ -1,9 +1,10 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import {BrowserRouter, Routes, Route, Navigate, useLocation} from "react-router-dom";
 import Login from "./pages/Login.tsx"
 import Register from "./pages/Register.tsx"
 import Home from "./pages/Home.tsx"
 import NotFound from "./pages/NotFound.tsx"
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
+import {Navbar} from "./components/Navbar.tsx";
 
 function Logout() {
     localStorage.clear();
@@ -15,25 +16,39 @@ function RegisterAndLogout() {
     return <Register />;
 }
 
-function App() {
+const AppContent = () => {
+    const location = useLocation();
+    const isAuthPath = location.pathname.startsWith('/auth');
+
     return (
-        <BrowserRouter>
+        <>
+            {!isAuthPath && <Navbar />}
             <Routes>
                 <Route
                     path="/"
                     element={
-                    <ProtectedRoute>
-                        <Home/>
-                    </ProtectedRoute>
-                }/>
+                        <ProtectedRoute>
+                            <Home/>
+                        </ProtectedRoute>
+                    }/>
 
-                <Route path="/logout" element={<Logout />} />
-                <Route path="/login" element={<Login/>}/>
-                <Route path="/register" element={<RegisterAndLogout/>}/>
+                <Route path="/auth/logout" element={<Logout />} />
+                <Route path="/auth/login" element={<Login/>}/>
+                <Route path="/auth/register" element={<RegisterAndLogout/>}/>
                 <Route path="*" element={<NotFound/>}/>
             </Routes>
+        </>
+    );
+};
+
+function App() {
+
+    return (
+        <BrowserRouter>
+            <AppContent/>
         </BrowserRouter>
     );
 }
+
 
 export default App

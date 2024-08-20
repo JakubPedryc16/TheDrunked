@@ -15,6 +15,7 @@ interface TokenData {
 function Form(props: FormProps) {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState("")
     const navigate = useNavigate();
 
     const name = props.method === "login" ? "Login" : "Register";
@@ -29,7 +30,7 @@ function Form(props: FormProps) {
                 navigate("/")
             }
             else {
-                navigate("/login")
+                setErrorMessage("Wrong email or password")
             }
         } catch (error) {
             alert(error)
@@ -39,6 +40,7 @@ function Form(props: FormProps) {
     return (
         <FormContainer onSubmit={handleSubmit} className="form-container">
             <h1>{name}</h1>
+            {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
             <FormInput
                 className="form-input"
                 type="text"
@@ -97,4 +99,9 @@ const FormButton = styled.button`
     button:hover {
         background-color: #0056b3;
     }
+`;
+
+const ErrorMessage = styled.div`
+  color: red;
+  margin-bottom: 1rem; /* Dodatkowa opcja, jeśli chcesz margines poniżej wiadomości */
 `;
