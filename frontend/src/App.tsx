@@ -5,6 +5,9 @@ import Home from "./pages/Home.tsx"
 import NotFound from "./pages/NotFound.tsx"
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
 import {Navbar} from "./components/Navbar.tsx";
+import GlobalContainer from "./components/GlobalContainer.tsx";
+import styled from "styled-components";
+import MainContent from "./components/MainContent.tsx";
 
 function Logout() {
     localStorage.clear();
@@ -21,23 +24,23 @@ const AppContent = () => {
     const isAuthPath = location.pathname.startsWith('/auth');
 
     return (
-        <>
-            {!isAuthPath && <Navbar />}
-            <Routes>
-                <Route
-                    path="/"
-                    element={
-                        <ProtectedRoute>
-                            <Home/>
-                        </ProtectedRoute>
-                    }/>
+        <GlobalContainer>
+            {!isAuthPath && <Navbar/>}
+                <Routes>
+                    <Route
+                        path="/"
+                        element={
+                            <ProtectedRoute>
+                                <Home/>
+                            </ProtectedRoute>
+                        }/>
 
-                <Route path="/auth/logout" element={<Logout />} />
-                <Route path="/auth/login" element={<Login/>}/>
-                <Route path="/auth/register" element={<RegisterAndLogout/>}/>
-                <Route path="*" element={<NotFound/>}/>
-            </Routes>
-        </>
+                    <Route path="/auth/logout" element={<Logout />} />
+                    <Route path="/auth/login" element={<Login/>}/>
+                    <Route path="/auth/register" element={<RegisterAndLogout/>}/>
+                    <Route path="*" element={<NotFound/>}/>
+                </Routes>
+        </GlobalContainer>
     );
 };
 
