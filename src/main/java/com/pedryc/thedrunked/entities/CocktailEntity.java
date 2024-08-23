@@ -29,7 +29,7 @@ public class CocktailEntity {
 
     @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "user_id")
-    private UserEntity userId;
+    private UserEntity cocktailUser;
 
     @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(

@@ -10,16 +10,16 @@ import lombok.Getter;
 @Getter
 public class IngredientDto {
 
-    private final long ingredientId;
-    private final String ingredientName;
-    private final String ingredientImage;
+    private final long id;
+    private final String name;
+    private final String image;
 
 
     public IngredientDto(IngredientEntity ingredientEntity
     ) {
-        this.ingredientId = ingredientEntity.getIngredientId();
-        this.ingredientName = ingredientEntity.getIngredientName();
-        this.ingredientImage = ingredientEntity.getIngredientImage();
+        this.id = ingredientEntity.getIngredientId();
+        this.name = ingredientEntity.getIngredientName();
+        this.image = ingredientEntity.getIngredientImage();
 
     }
 

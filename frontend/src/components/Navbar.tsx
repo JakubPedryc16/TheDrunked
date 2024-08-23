@@ -4,40 +4,46 @@ export const Navbar = () => {
     const [menuOpen, setMenuOpen] = useState(false);
 
     return (
-        <Nav>
-            <NavTitle href="/">
-                Website
-            </NavTitle>
-            <Menu className="menu" onClick={() => setMenuOpen(!menuOpen)}>
+        <NavContainer>
+            <Nav>
+                <NavTitle href="/">
+                    Website
+                </NavTitle>
+                <Menu className="menu" onClick={() => setMenuOpen(!menuOpen)}>
 
-            </Menu>
-            <NavList className={menuOpen ? "open" : ""}>
-                <NavListItem>
-                    <NavLink href="/about">About</NavLink>
-                </NavListItem>
-                <NavListItem>
-                    <NavLink href="/services">Services</NavLink>
-                </NavListItem>
-                <NavListItem>
-                    <NavLink href="/contact">Contact</NavLink>
-                </NavListItem>
-            </NavList>
-        </Nav>
+                </Menu>
+                <NavList className={menuOpen ? "open" : ""}>
+                    <NavListItem>
+                        <NavLink href="/about">About</NavLink>
+                    </NavListItem>
+                    <NavListItem>
+                        <NavLink href="/services">Services</NavLink>
+                    </NavListItem>
+                    <NavListItem>
+                        <NavLink href="/contact">Contact</NavLink>
+                    </NavListItem>
+                </NavList>
+            </Nav>
+        </NavContainer>
     );
 };
 
 
 import styled from 'styled-components';
 
+const NavContainer = styled.div`
+    background-color: #212127;
+`
 const Nav = styled.nav`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #0f172a;
-  color: white;
-  position: sticky;
-  top: 0;
-  flex-direction: column;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    position: sticky;
+    top: 0;
+    flex-direction: column;
+    width: 90%;
+    margin: 0 auto;
 
   @media (min-width: 481px) {
     flex-direction: row;
