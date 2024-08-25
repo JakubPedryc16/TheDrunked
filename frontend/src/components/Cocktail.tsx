@@ -7,7 +7,7 @@ interface TagData {
 }
 
 interface CocktailProps{
-    key: string;
+    key: number;
     image: string;
     name: string;
     tags: TagData[];
