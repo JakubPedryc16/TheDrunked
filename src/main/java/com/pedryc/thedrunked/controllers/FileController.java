@@ -14,15 +14,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class FileController {
     
-    @GetMapping("/user/file/{fileName}")
-    public ResponseEntity<byte[]> file(@PathVariable String fileName) {
+    @GetMapping("/user/file/{type}/{fileName}")
+    public ResponseEntity<byte[]> file(@PathVariable String type, @PathVariable String fileName) {
 
         if (!fileName.matches("[a-zA-Z0-9_-]+\\.(jpg|jpeg|png)")) {
-            return ResponseEntity.badRequest().body("Invalid file name".getBytes());
+            return ResponseEntity.badRequest().body("Invalid file name, Accepted extensions .jpg .jpeg .png".getBytes());
         }
 
         try {
-            ClassPathResource imageFile = new ClassPathResource("images/cocktailImages/" + fileName);
+            ClassPathResource imageFile = new ClassPathResource("images/" + type + "/" + fileName);
 
             if (!imageFile.exists()) {
                 return ResponseEntity.notFound().build();
@@ -51,4 +51,5 @@ public class FileController {
             return MediaType.APPLICATION_OCTET_STREAM;
         }
     }
+
 }

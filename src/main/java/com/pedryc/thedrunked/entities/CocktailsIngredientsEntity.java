@@ -1,6 +1,5 @@
 package com.pedryc.thedrunked.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,7 +12,6 @@ public class CocktailsIngredientsEntity {
     @Id
     @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "cocktail_id")
-    @JsonIgnore
     private CocktailEntity cocktail;
 
     @Id

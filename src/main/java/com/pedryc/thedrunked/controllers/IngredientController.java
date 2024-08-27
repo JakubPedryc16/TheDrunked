@@ -1,6 +1,6 @@
 package com.pedryc.thedrunked.controllers;
 
-import com.pedryc.thedrunked.Dtos.CocktailDto;
+import com.pedryc.thedrunked.Dtos.ComplexCocktailDto;
 import com.pedryc.thedrunked.Dtos.IngredientDto;
 import com.pedryc.thedrunked.services.IngredientService;
 import org.springframework.web.bind.annotation.GetMapping;

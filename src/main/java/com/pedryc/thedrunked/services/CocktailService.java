@@ -1,6 +1,6 @@
 package com.pedryc.thedrunked.services;
 
-import com.pedryc.thedrunked.Dtos.CocktailDto;
+import com.pedryc.thedrunked.Dtos.ComplexCocktailDto;
 import com.pedryc.thedrunked.entities.CocktailEntity;
 import com.pedryc.thedrunked.repositories.CocktailRepository;
 import org.springframework.stereotype.Service;
@@ -16,9 +16,9 @@ public class CocktailService {
         this.cocktailRepository = cocktailRepository;
     }
 
-    public List<CocktailDto> getAllCocktails() {
+    public List<ComplexCocktailDto> getAllCocktails() {
         List<CocktailEntity> cocktailEntities = cocktailRepository.findAll();
-        return cocktailEntities.stream().map(CocktailDto::new).toList();
+        return cocktailEntities.stream().map(ComplexCocktailDto::new).toList();
 
     }
 }

@@ -1,10 +1,7 @@
 package com.pedryc.thedrunked.services;
 
-import com.pedryc.thedrunked.Dtos.CocktailDto;
-import com.pedryc.thedrunked.Dtos.IngredientDto;
+import com.pedryc.thedrunked.Dtos.ComplexCocktailDto;
 import com.pedryc.thedrunked.Dtos.TagDto;
-import com.pedryc.thedrunked.entities.CocktailEntity;
-import com.pedryc.thedrunked.entities.IngredientEntity;
 import com.pedryc.thedrunked.entities.TagEntity;
 import com.pedryc.thedrunked.repositories.TagRepository;
 import org.springframework.stereotype.Service;
@@ -24,10 +21,10 @@ public class TagService {
         return tagEntities.stream().map(TagDto::new).toList();
     }
 
-    public List<CocktailDto> getCocktailsByTagId(long tagId) {
+    public List<ComplexCocktailDto> getCocktailsByTagId(long tagId) {
         Optional<TagEntity> tagEntity = tagRepository.findById(tagId);
         return tagEntity.map(entity -> entity.getCocktails().stream()
-                .map(CocktailDto::new)
+                .map(ComplexCocktailDto::new)
                 .toList())
                 .orElse(null);
     }

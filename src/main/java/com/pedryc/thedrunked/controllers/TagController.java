@@ -1,6 +1,6 @@
 package com.pedryc.thedrunked.controllers;
 
-import com.pedryc.thedrunked.Dtos.CocktailDto;
+import com.pedryc.thedrunked.Dtos.ComplexCocktailDto;
 import com.pedryc.thedrunked.Dtos.TagDto;
 import com.pedryc.thedrunked.repositories.TagRepository;
 import com.pedryc.thedrunked.services.TagService;
@@ -23,7 +23,7 @@ public class TagController {
     }
 
     @GetMapping("/user/tags/cocktails/{id}")
-    public List<CocktailDto> cocktails(@PathVariable int id) {
+    public List<ComplexCocktailDto> cocktails(@PathVariable int id) {
         return tagService.getCocktailsByTagId(id);
     }
 }

@@ -23,4 +23,6 @@ public class UserEntity {
     @Column(name = "user_role")
     private String role;
 
+
+
 }

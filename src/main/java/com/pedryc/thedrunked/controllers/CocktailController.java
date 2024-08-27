@@ -1,6 +1,6 @@
 package com.pedryc.thedrunked.controllers;
 
-import com.pedryc.thedrunked.Dtos.CocktailDto;
+import com.pedryc.thedrunked.Dtos.ComplexCocktailDto;
 import com.pedryc.thedrunked.services.CocktailService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,7 +16,7 @@ public class CocktailController {
     }
 
     @GetMapping("/user/cocktails")
-    public List<CocktailDto> cocktails() {
+    public List<ComplexCocktailDto> cocktails() {
         return cocktailService.getAllCocktails();
     }
 }
