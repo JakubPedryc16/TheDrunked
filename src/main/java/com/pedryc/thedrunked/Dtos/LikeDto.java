@@ -14,7 +14,7 @@ public class LikeDto {
     private CocktailDto cocktail;
 
     public LikeDto(LikeEntity likeEntity) {
-        this.id = likeEntity.getLikeId();
+        this.id = likeEntity.getId();
         
         UserEntity userEntity = likeEntity.getUser();
         this.user = new UserDto(userEntity);

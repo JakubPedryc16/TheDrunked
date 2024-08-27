@@ -16,6 +16,7 @@ public class ComplexCocktailDto {
     private final String description;
     private final String image;
     private final UserDto user;
+    private final int likes;
     private final List<TagDto> tags;
     private final List<CocktailsIngredientsDto> ingredients;
 
@@ -25,14 +26,15 @@ public class ComplexCocktailDto {
         this.name = cocktailEntity.getName();
         this.description = cocktailEntity.getDescription();
         this.image = cocktailEntity.getImage();
-
-        UserEntity userEntity = cocktailEntity.getCocktailUser();
+        this.likes = cocktailEntity.countLikes();
+        
+        UserEntity userEntity = cocktailEntity.getUser();
         this.user = userEntity != null ? new UserDto(userEntity) : null;
 
-        List<TagEntity> tagList = cocktailEntity.getCocktailTags();
+        List<TagEntity> tagList = cocktailEntity.getTags();
         this.tags = tagList.stream().map(TagDto::new).toList();
 //
-        List<CocktailsIngredientsEntity> cocktailsIngredientsEntityList = cocktailEntity.getCocktailIngredients();
+        List<CocktailsIngredientsEntity> cocktailsIngredientsEntityList = cocktailEntity.getIngredients();
         this.ingredients = cocktailsIngredientsEntityList.stream().map(CocktailsIngredientsDto::new).toList();
     }
 

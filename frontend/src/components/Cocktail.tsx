@@ -1,21 +1,20 @@
 import React, { useEffect, useState } from "react";
 import api from "../utils/api";
 import styled from "styled-components";
-
-
-interface TagData {
-    id: number;
-    name: string;
-}
+import { TagDto } from "../Dtos/TagDto";
 
 interface CocktailProps{
-    key: number;
+    id: number;
+    key?: number;
     image: string;
     name: string;
-    tags: TagData[];
+    likes: number;
+    tags: TagDto[];
+
+    clickEvent: () => void;
 }
 
-export const Cocktail: React.FC<CocktailProps> = ({image, name, tags}) => {
+export const Cocktail: React.FC<CocktailProps> = ({image, name, likes, tags, clickEvent}) => {
 
     const [imageData, setImageData] = useState<string>("")
 
@@ -40,9 +39,10 @@ export const Cocktail: React.FC<CocktailProps> = ({image, name, tags}) => {
 
     
     return (
-        <div>
+        <div onClick={clickEvent}>
             <Image src={imageData} alt="Cocktail Image"/>
             <div>{name}</div>
+            <div>{likes}</div>
             <div>
                 {tags.map((tag) => (
                     <div key={tag.id}>

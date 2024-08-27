@@ -12,7 +12,7 @@ public class UserDto {
     private final String role;
 
     public UserDto(UserEntity userEntity) {
-        this.id = userEntity.getUserId();
+        this.id = userEntity.getId();
         this.username = userEntity.getUsername();
         this.role = userEntity.getRole();
     }

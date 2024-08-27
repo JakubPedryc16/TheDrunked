@@ -27,18 +27,25 @@ public class CocktailEntity {
     @Column(name = "cocktail_image")
     private String image;
 
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne()
     @JoinColumn(name = "user_id")
-    private UserEntity cocktailUser;
+    private UserEntity user;
 
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany()
     @JoinTable(
             name = "cocktails_tags",
             joinColumns = { @JoinColumn(name = "cocktail_id")},
             inverseJoinColumns = { @JoinColumn(name = "tag_id")}
     )
-    List<TagEntity> cocktailTags = new ArrayList<>();
+    List<TagEntity> tags = new ArrayList<>();
 
-    @OneToMany(mappedBy = "cocktail")
-    private List<CocktailsIngredientsEntity> cocktailIngredients = new ArrayList<>();
+    @OneToMany(mappedBy = "cocktail", orphanRemoval = true)
+    private List<CocktailsIngredientsEntity> ingredients = new ArrayList<>();
+
+    @OneToMany(mappedBy = "cocktail", orphanRemoval = true)
+    private List<LikeEntity> likes = new ArrayList<>();
+
+    public int countLikes(){
+        return likes.size();
+    }
 }

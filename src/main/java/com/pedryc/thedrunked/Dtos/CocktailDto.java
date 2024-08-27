@@ -10,6 +10,7 @@ public class CocktailDto {
     private final String name;
     private final String description;
     private final String image;
+    private final int likes;
 
     public CocktailDto(CocktailEntity cocktailEntity
     ) {
@@ -17,5 +18,6 @@ public class CocktailDto {
         this.name = cocktailEntity.getName();
         this.description = cocktailEntity.getDescription();
         this.image = cocktailEntity.getImage();
+        this.likes = cocktailEntity.countLikes();
     }
 }

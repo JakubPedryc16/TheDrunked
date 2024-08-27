@@ -10,15 +10,15 @@ import lombok.Setter;
 public class CocktailsIngredientsEntity {
 
     @Id
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne()
     @JoinColumn(name = "cocktail_id")
     private CocktailEntity cocktail;
 
     @Id
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne()
     @JoinColumn(name = "ingredient_id")
     private IngredientEntity ingredient;
 
     @Column(name = "ingredient_amount")
-    private String ingredientAmount;
+    private String amount;
 }

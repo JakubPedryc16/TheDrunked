@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+import java.util.ArrayList;
+
 @Setter
 @Getter
 @Entity(name = "users")
@@ -12,7 +15,7 @@ public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private Long userId;
+    private Long id;
 
     @Column(name = "user_username")
     private String username;
@@ -23,6 +26,7 @@ public class UserEntity {
     @Column(name = "user_role")
     private String role;
 
-
+    @OneToMany(mappedBy = "user", orphanRemoval = true)
+    private List<CocktailEntity> cocktails = new ArrayList<>();
 
 }

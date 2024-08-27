@@ -17,15 +17,14 @@ public class IngredientEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ingredient_id")
-    private long ingredientId;
+    private long id;
 
     @Column(name = "ingredient_name")
-    private String ingredientName;
+    private String name;
 
     @Column(name = "ingredient_image")
-    private String ingredientImage;
+    private String image;
 
     @OneToMany(mappedBy = "ingredient")
-
-    private List<CocktailsIngredientsEntity> ingredientCocktails = new ArrayList<>();
+    private List<CocktailsIngredientsEntity> cocktails = new ArrayList<>();
 }

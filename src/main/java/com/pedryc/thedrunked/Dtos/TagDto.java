@@ -11,7 +11,7 @@ public class TagDto {
 
     public TagDto(TagEntity tagEntity
     ) {
-        this.id = tagEntity.getTagId();
-        this.name = tagEntity.getTagName();
+        this.id = tagEntity.getId();
+        this.name = tagEntity.getName();
     }
 }

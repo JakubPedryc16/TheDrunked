@@ -4,32 +4,14 @@ import { Column, Columns } from "../styled-components/Common";
 import { SearchBar } from "../components/SearchBar";
 import { Cocktail } from "../components/Cocktail";
 import api from "../utils/api";
+import { DetailedCocktailDto } from "../Dtos/DetailedCocktailDto";
+import { DetailedCocktail } from "../components/DetailedCocktail";
 
 function CocktailPage() {
 
-    interface IngredientProps{
-        id: number;
-        name: string;
-        image: string;
-        amount: string;
-    }
-
-    interface TagProps{
-        id: number;
-        name: string;
-    }
-
-    interface CocktailProps{
-        id: number;
-        name: string;
-        image: string;
-        description: string;
-        ingredients: IngredientProps[];
-        tags: TagProps[];
-    }
-
-    const [cocktails, setCocktails] = useState<CocktailProps[]>([]);
-    const [filteredCocktails, setFilteredCocktails] = useState<CocktailProps[]>([]);
+    const [cocktails, setCocktails] = useState<DetailedCocktailDto[]>([]);
+    const [filteredCocktails, setFilteredCocktails] = useState<DetailedCocktailDto[]>([]);
+    const [selectedCocktail, setSelectedCocktail] = useState<DetailedCocktailDto | null>(null);
     const [error, setError] = useState<string>("");
     
     function filterCocktails(inputValue: string){
@@ -76,12 +58,12 @@ function CocktailPage() {
                     <SearchBar onSearch={filterCocktails}/>
                     {error}
                     {Array.isArray(filteredCocktails) && filteredCocktails.map(filteredCocktail => (
-                        <Cocktail key={filteredCocktail.id} {...filteredCocktail}/>
+                        <Cocktail key={filteredCocktail.id} clickEvent={() => setSelectedCocktail(filteredCocktail)} {...filteredCocktail}/>
                     ))}
                 </Column>
 
                 <Column>
-  
+                    {selectedCocktail && <DetailedCocktail {...selectedCocktail}/>}
                 </Column>
             </Columns>
         </MainContent>

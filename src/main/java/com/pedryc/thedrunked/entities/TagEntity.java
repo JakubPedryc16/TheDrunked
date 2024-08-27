@@ -1,6 +1,6 @@
 package com.pedryc.thedrunked.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,12 +16,11 @@ public class TagEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "tag_id")
-    private int tagId;
+    private int id;
 
     @Column(name = "tag_name")
-    private String tagName;
+    private String name;
 
-    @ManyToMany(mappedBy = "cocktailTags")
-
+    @ManyToMany(mappedBy = "tags")
     private List<CocktailEntity> cocktails = new ArrayList<>();
 }

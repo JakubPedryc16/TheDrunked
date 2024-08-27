@@ -17,9 +17,9 @@ public class IngredientDto {
 
     public IngredientDto(IngredientEntity ingredientEntity
     ) {
-        this.id = ingredientEntity.getIngredientId();
-        this.name = ingredientEntity.getIngredientName();
-        this.image = ingredientEntity.getIngredientImage();
+        this.id = ingredientEntity.getId();
+        this.name = ingredientEntity.getName();
+        this.image = ingredientEntity.getImage();
 
     }
 

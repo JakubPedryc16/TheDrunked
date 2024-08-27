@@ -5,22 +5,13 @@ import { useEffect, useState } from "react";
 import api from "../utils/api.ts";
 import { Cocktail } from "../components/Cocktail.tsx";
 import { Column, Columns } from "../styled-components/Common.tsx";
+import { CocktailDto } from "../Dtos/CocktailDto.tsx";
 
 
 function Home() {
     
-    interface TagData {
-        id: number;
-        name: string;
-    }
 
-    interface CocktailData{
-        id: number;
-        image: string;
-        name: string;
-        tags: TagData[];
-    }
-    const [cocktails, setCocktails] = useState<CocktailData[]>([]);
+    const [cocktails, setCocktails] = useState<CocktailDto[]>([]);
     const [error, setError] = useState<string | null> (null)
 
     useEffect (() => {
@@ -56,7 +47,7 @@ function Home() {
                 <Column>
                     {error}
                     {Array.isArray(cocktails) && cocktails.map( cocktail => (
-                        <Cocktail key={cocktail.id} {...cocktail}/>
+                        <Cocktail key={cocktail.id} clickEvent={() => (console.log("CHUJ"))} {...cocktail} />
                     ))}
                 </Column>
             </Columns>
