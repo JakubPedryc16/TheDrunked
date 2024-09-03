@@ -39,8 +39,8 @@ public class CocktailEntity {
     )
     List<TagEntity> tags = new ArrayList<>();
 
-    @OneToMany(mappedBy = "cocktail", orphanRemoval = true)
-    private List<CocktailsIngredientsEntity> ingredients = new ArrayList<>();
+    @OneToMany(mappedBy = "cocktail", orphanRemoval = true, cascade = CascadeType.ALL)
+    private List<CocktailIngredientEntity> ingredients = new ArrayList<>();
 
     @OneToMany(mappedBy = "cocktail", orphanRemoval = true)
     private List<LikeEntity> likes = new ArrayList<>();

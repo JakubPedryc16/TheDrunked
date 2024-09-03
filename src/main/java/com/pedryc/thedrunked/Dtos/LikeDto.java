@@ -4,9 +4,11 @@ import com.pedryc.thedrunked.entities.CocktailEntity;
 import com.pedryc.thedrunked.entities.LikeEntity;
 import com.pedryc.thedrunked.entities.UserEntity;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
+@AllArgsConstructor
 public class LikeDto {
     
     private Long id;

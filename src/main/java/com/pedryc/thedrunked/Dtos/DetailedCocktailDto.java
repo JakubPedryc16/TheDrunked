@@ -1,15 +1,16 @@
 package com.pedryc.thedrunked.Dtos;
 
 import com.pedryc.thedrunked.entities.CocktailEntity;
-import com.pedryc.thedrunked.entities.CocktailsIngredientsEntity;
+import com.pedryc.thedrunked.entities.CocktailIngredientEntity;
 import com.pedryc.thedrunked.entities.TagEntity;
 import com.pedryc.thedrunked.entities.UserEntity;
 import lombok.Getter;
 
+
 import java.util.List;
 
 @Getter
-public class ComplexCocktailDto {
+public class DetailedCocktailDto {
 
     private final Long id;
     private final String name;
@@ -18,9 +19,10 @@ public class ComplexCocktailDto {
     private final UserDto user;
     private final int likes;
     private final List<TagDto> tags;
-    private final List<CocktailsIngredientsDto> ingredients;
+    private final List<CocktailIngredientDto> ingredients;
 
-    public ComplexCocktailDto(CocktailEntity cocktailEntity
+
+    public DetailedCocktailDto(CocktailEntity cocktailEntity
     ) {
         this.id = cocktailEntity.getId();
         this.name = cocktailEntity.getName();
@@ -34,8 +36,8 @@ public class ComplexCocktailDto {
         List<TagEntity> tagList = cocktailEntity.getTags();
         this.tags = tagList.stream().map(TagDto::new).toList();
 //
-        List<CocktailsIngredientsEntity> cocktailsIngredientsEntityList = cocktailEntity.getIngredients();
-        this.ingredients = cocktailsIngredientsEntityList.stream().map(CocktailsIngredientsDto::new).toList();
+        List<CocktailIngredientEntity> cocktailIngredientEntityList = cocktailEntity.getIngredients();
+        this.ingredients = cocktailIngredientEntityList.stream().map(CocktailIngredientDto::new).toList();
     }
 
 }

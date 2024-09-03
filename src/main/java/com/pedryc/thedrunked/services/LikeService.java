@@ -1,6 +1,11 @@
 package com.pedryc.thedrunked.services;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.pedryc.thedrunked.entities.CocktailEntity;
 import com.pedryc.thedrunked.entities.LikeEntity;
@@ -26,9 +31,8 @@ public class LikeService {
         this.cocktailRepository = cocktailRepository;
     }
 
-    public void likeCocktail(Long userId, Long cocktailId) throws IllegalArgumentException, IllegalStateException {
-        UserEntity user = userRepository.findById(userId)
-            .orElseThrow(() -> new IllegalArgumentException("User Not Found"));
+    public void likeCocktail(long cocktailId) throws IllegalArgumentException, IllegalStateException {
+        UserEntity user = getUserEntity();
 
         CocktailEntity cocktail = cocktailRepository.findById(cocktailId)
             .orElseThrow(() -> new IllegalArgumentException("Cocktail Not Found"));
@@ -43,9 +47,8 @@ public class LikeService {
         likeRepository.save(like);
     }
 
-    public void unlikeCocktail(Long userId, Long cocktailId) throws IllegalArgumentException, IllegalStateException {
-        UserEntity user = userRepository.findById(userId)
-            .orElseThrow(() -> new IllegalArgumentException("User Not Found"));
+    public void unlikeCocktail(long cocktailId) throws IllegalArgumentException, IllegalStateException {
+        UserEntity user = getUserEntity();
 
         CocktailEntity cocktail = cocktailRepository.findById(cocktailId)
             .orElseThrow(() -> new IllegalArgumentException("Cocktail Not Found"));
@@ -56,7 +59,7 @@ public class LikeService {
         likeRepository.delete(like);
     }
 
-    public Long getCocktailLikesCount(Long cocktailId) throws IllegalArgumentException {
+    public Long getCocktailLikesCount(long cocktailId) throws IllegalArgumentException {
         CocktailEntity cocktail = cocktailRepository.findById(cocktailId)
             .orElseThrow(() -> new IllegalArgumentException("Cocktail Not Found"));
 
@@ -64,6 +67,18 @@ public class LikeService {
 
     }
 
+    private UserEntity getUserEntity() throws ResponseStatusException, IllegalArgumentException{
+        
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication instanceof AnonymousAuthenticationToken) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User Not Logged In");
+        }
+        String username= authentication.getName();;
+        UserEntity user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("User Not Found"));
+
+        return user;
+    }
 
     
 }

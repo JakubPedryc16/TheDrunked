@@ -4,4 +4,5 @@ export interface IngredientDto{
     name: string;
     image: string;
     amount: string;
+    clickEffect?: () => void;
 }

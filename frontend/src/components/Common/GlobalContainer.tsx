@@ -17,10 +17,13 @@ const Wrapper = styled.div`
     width: 100vw;
     height: 100vh;
     margin: 0;
-    
-    background-color: #2F333F;
-    font-family: Inter,serif;
+    background-color: rgb(37, 48, 49);
+    font-family: Inter, serif;
     font-size: 20px;
-    color: white;
-    
-`
+    color: rgb(240, 237, 238);
+    overflow: auto; 
+
+    &::-webkit-scrollbar {
+        display: none; 
+    }
+`;

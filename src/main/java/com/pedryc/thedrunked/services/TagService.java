@@ -1,6 +1,6 @@
 package com.pedryc.thedrunked.services;
 
-import com.pedryc.thedrunked.Dtos.ComplexCocktailDto;
+import com.pedryc.thedrunked.Dtos.DetailedCocktailDto;
 import com.pedryc.thedrunked.Dtos.TagDto;
 import com.pedryc.thedrunked.entities.TagEntity;
 import com.pedryc.thedrunked.repositories.TagRepository;
@@ -21,10 +21,10 @@ public class TagService {
         return tagEntities.stream().map(TagDto::new).toList();
     }
 
-    public List<ComplexCocktailDto> getCocktailsByTagId(long tagId) {
+    public List<DetailedCocktailDto> getCocktailsByTagId(long tagId) {
         Optional<TagEntity> tagEntity = tagRepository.findById(tagId);
         return tagEntity.map(entity -> entity.getCocktails().stream()
-                .map(ComplexCocktailDto::new)
+                .map(DetailedCocktailDto::new)
                 .toList())
                 .orElse(null);
     }

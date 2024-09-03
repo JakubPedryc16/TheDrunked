@@ -1,26 +1,23 @@
 import { useState } from "react";
 
 export const Navbar = () => {
-    const [menuOpen, setMenuOpen] = useState(false);
+
 
     return (
         <NavContainer>
             <Nav>
                 <NavTitle href="/">
-                    Website
+                    The Drunked
                 </NavTitle>
-                <Menu className="menu" onClick={() => setMenuOpen(!menuOpen)}>
-
-                </Menu>
-                <NavList className={menuOpen ? "open" : ""}>
+                <NavList>
                     <NavListItem>
-                        <NavLink href="/about">About</NavLink>
+                        <NavLink href="/cocktails">Cocktails</NavLink>
                     </NavListItem>
                     <NavListItem>
-                        <NavLink href="/services">Services</NavLink>
+                        <NavLink href="/?????">Manage Cocktails</NavLink>
                     </NavListItem>
                     <NavListItem>
-                        <NavLink href="/contact">Contact</NavLink>
+                        <NavLink href="/???????">???????</NavLink>
                     </NavListItem>
                 </NavList>
             </Nav>
@@ -32,13 +29,15 @@ export const Navbar = () => {
 import styled from 'styled-components';
 
 const NavContainer = styled.div`
-    background-color: #212127;
+    background-color: rgb(37, 126, 116);
+    color: rgb(240, 237, 238);
+    font-size: 1rem;
 `
 const Nav = styled.nav`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: white;
+    color: rgb(240, 237, 238);
     position: sticky;
     top: 0;
     flex-direction: column;
@@ -52,11 +51,11 @@ const Nav = styled.nav`
 `;
 
 const NavTitle = styled.a`
-  font-size: 1.5rem;
-  margin: 1rem;
+  font-size: 1.2rem;
+
   font-weight: bold;
   text-decoration: none;
-  color: white;
+  color: rgb(240, 237, 238);
 `;
 
 const NavList = styled.ul`
@@ -94,26 +93,11 @@ const NavLink = styled.a`
   border-radius: 0.5rem;
 
   &:hover {
-    background-color: #172554;
+    background-color: rgb(49, 86, 89);
   }
 
   @media (min-width: 481px) {
     margin: 0 0.5rem;
-  }
-`;
-
-const Menu = styled.div`
-  display: flex;
-  position: absolute;
-  top: 0.75rem;
-  right: 0.5rem;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 2.25rem;
-  height: 2rem;
-
-  @media (min-width: 481px) {
-    display: none;
   }
 `;
 

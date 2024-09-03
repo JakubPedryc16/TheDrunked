@@ -7,7 +7,8 @@ import lombok.Setter;
 @Entity(name = "cocktails_ingredients")
 @Setter
 @Getter
-public class CocktailsIngredientsEntity {
+@IdClass(CocktailIngredientId.class)
+public class CocktailIngredientEntity {
 
     @Id
     @ManyToOne()

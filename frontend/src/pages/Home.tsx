@@ -1,11 +1,12 @@
 import { Navigate } from "react-router-dom";
-import {Button} from "../components/Button.tsx";
-import MainContent from "../components/MainContent.tsx";
+import {Button} from "../components/Other/Button.tsx";
+import MainContent from "../components/Common/MainContent.tsx";
 import { useEffect, useState } from "react";
 import api from "../utils/api.ts";
-import { Cocktail } from "../components/Cocktail.tsx";
+import { Cocktail } from "../components/Entities/Cocktail.tsx";
 import { Column, Columns } from "../styled-components/Common.tsx";
 import { CocktailDto } from "../Dtos/CocktailDto.tsx";
+import styled from "styled-components";
 
 
 function Home() {
@@ -37,7 +38,6 @@ function Home() {
 
     return (
         <MainContent>
-            <h1>HOME</h1>
             <Columns>
                 <Column>
                     <Button onClick={() => (<Navigate to="chuj"/>)} label={"meow"}/>
@@ -46,9 +46,11 @@ function Home() {
                 </Column>
                 <Column>
                     {error}
-                    {Array.isArray(cocktails) && cocktails.map( cocktail => (
-                        <Cocktail key={cocktail.id} clickEvent={() => (console.log("CHUJ"))} {...cocktail} />
-                    ))}
+                    <CocktailsContainer>
+                        {Array.isArray(cocktails) && cocktails.map( cocktail => (
+                            <Cocktail key={cocktail.id} clickEvent={() => (console.log("CHUJ"))} {...cocktail} />
+                        ))}
+                    </CocktailsContainer>
                 </Column>
             </Columns>
         </MainContent>
@@ -59,5 +61,13 @@ function Home() {
 
 export default Home;
 
+const CocktailsContainer = styled.div`
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
 
+    overflow: auto;
+    height: 60vh;
+    width: 35vw;
+`
 

@@ -17,9 +17,9 @@ public class LikeController {
     }
 
     @PostMapping("/user/like")
-    public ResponseEntity<?> like(@RequestParam Long userId, @RequestParam Long cocktailId) {
+    public ResponseEntity<?> likeCocktail(@RequestParam long cocktailId) {
         try{
-            likeService.likeCocktail(userId, cocktailId);
+            likeService.likeCocktail(cocktailId);
             return ResponseEntity.ok().build();
         } catch(IllegalArgumentException error) {
             return ResponseEntity.badRequest().body(error.getMessage());
@@ -31,9 +31,9 @@ public class LikeController {
     }
 
     @PostMapping("user/unlike")
-    public ResponseEntity<?> unlike(@RequestParam Long userId, @RequestParam Long cocktailId) {
+    public ResponseEntity<?> unlikeCocktail(@RequestParam long cocktailId) {
         try {
-            likeService.unlikeCocktail(userId, cocktailId);
+            likeService.unlikeCocktail(cocktailId);
             return ResponseEntity.ok().build();
         } catch(IllegalArgumentException error) {
             return ResponseEntity.badRequest().body(error.getMessage());
@@ -46,7 +46,7 @@ public class LikeController {
 
 
     @GetMapping("/user/like/count")
-    public ResponseEntity<?> count(@RequestParam Long cocktailId) {
+    public ResponseEntity<?> countLikes(@RequestParam Long cocktailId) {
         try {
            Long count = likeService.getCocktailLikesCount(cocktailId);
             return ResponseEntity.ok(count);

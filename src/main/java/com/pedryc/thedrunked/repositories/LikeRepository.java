@@ -1,4 +1,5 @@
 package com.pedryc.thedrunked.repositories;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,4 +13,5 @@ import com.pedryc.thedrunked.entities.UserEntity;
 public interface LikeRepository extends JpaRepository<LikeEntity, Long> {
     Optional<LikeEntity> findByUserAndCocktail(UserEntity user, CocktailEntity cocktail);
     long countByCocktail(CocktailEntity cocktail);
+    List<LikeEntity> findAllByUser(UserEntity user);
 }

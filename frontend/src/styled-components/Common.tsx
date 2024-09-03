@@ -3,7 +3,7 @@ import styled from "styled-components"
 export const Columns = styled.div`
     display: flex;
     flex-direction: row;
-    gap: 50px;
+    gap: 3vw;
 
 `
 export const Column = styled.div`
@@ -11,8 +11,9 @@ export const Column = styled.div`
     flex-direction: column;
 
     align-items: center;
-    gap: 50px;
-    width: 30vw;
+    gap: 3vw;
+    width: 40vw;
+    width: 80vh;
 
     background-color: rgba(0,0,0,0.2);
     padding: 50px;

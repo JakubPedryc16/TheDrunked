@@ -26,5 +26,5 @@ public class IngredientEntity {
     private String image;
 
     @OneToMany(mappedBy = "ingredient")
-    private List<CocktailsIngredientsEntity> cocktails = new ArrayList<>();
+    private List<CocktailIngredientEntity> cocktails = new ArrayList<>();
 }

@@ -1,10 +1,8 @@
 package com.pedryc.thedrunked.controllers;
 
-import com.pedryc.thedrunked.Dtos.ComplexCocktailDto;
 import com.pedryc.thedrunked.Dtos.IngredientDto;
 import com.pedryc.thedrunked.services.IngredientService;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -17,7 +15,7 @@ public class IngredientController {
     }
 
     @GetMapping("/user/ingredients")
-    public List<IngredientDto> ingredients() {
+    public List<IngredientDto> getIngredients() {
         return ingredientService.getAllIngredients();
     }
 
