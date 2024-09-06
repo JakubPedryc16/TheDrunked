@@ -1,8 +1,9 @@
 import {useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { FILTER_MODE } from "../../pages/CocktailPage";
 
 interface CocktailFilterProps {
-    setFilter: (value: string) => void;
+    setFilter: (mode: FILTER_MODE) => void;
 }
 
 export const CocktailFilter: React.FC<CocktailFilterProps> = ({setFilter}) => {
@@ -10,18 +11,13 @@ export const CocktailFilter: React.FC<CocktailFilterProps> = ({setFilter}) => {
 
     return (
         <FiltersContainer>
-            <Filter onClick={() => setFilter("all")}>
+            <Filter onClick={() => setFilter(FILTER_MODE.ALL)}>
                 All Cocktails
             </Filter>
 
-            <Filter onClick={() => setFilter("user")}>
+            <Filter onClick={() => setFilter(FILTER_MODE.USER)}>
                 Your Cocktails
             </Filter>
-
-            <Filter onClick={() => setFilter("manage")}>
-                Manage Cocktails
-            </Filter>
-
             
             <Filter onClick={() => navigate("/add-cocktail")}>
                 Add Cocktails

@@ -1,4 +1,4 @@
-import Form from "../Forms/Form.tsx";
+import Form from "../components/Forms/Form.tsx";
 
 function Login() {
     return <Form route="authenticate" method="login"/>

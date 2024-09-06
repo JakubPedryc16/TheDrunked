@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 
 import styled from "styled-components";
-import { IngredientDto } from "../../Dtos/IngredientsDto";
+import { IIngredient } from "../Interfaces/IIngredients";
 import getImageData from "../../utils/fileUtils";
 
-export const Ingredient:React.FC<IngredientDto> = (({image, name, amount, clickEffect}) => {
+export const Ingredient:React.FC<IIngredient> = (({image, name, amount, clickEffect}) => {
 
     const [imageData, setImageData] = useState<string>("")
 

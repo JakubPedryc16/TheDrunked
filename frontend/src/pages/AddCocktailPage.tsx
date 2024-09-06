@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { AddCocktailForm } from "../Forms/AddCocktailForm";
+import { AddCocktailForm } from "../components/Forms/AddCocktailForm";
 import MainContent from "../components/Common/MainContent";
 
 

@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import { TagDto } from "../../Dtos/TagDto";
+import { ITag } from "../Interfaces/ITag";
 
 
 
-export const Tag:React.FC<TagDto> = (({name, clickEffect}) => {
+export const Tag:React.FC<ITag> = (({name, clickEffect}) => {
     return(
         <TagContainer onClick={() => clickEffect && clickEffect()}>
             <div>{name}</div>

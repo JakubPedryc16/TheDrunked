@@ -1,11 +1,10 @@
-import { TagDto } from "./TagDto";
+import { ITag } from "./ITag";
 
-
-export interface CocktailDto{
+export interface ICocktail{
     id: number;
     key?: number;
     image: string;
     name: string;
     likes: number;
-    tags: TagDto[];
+    tags: ITag[];
 }

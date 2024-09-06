@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from "react";
 
 import styled from "styled-components";
-import { TagDto } from "../../Dtos/TagDto";
+import { ITag } from "../Interfaces/ITag";
 import { FaHeart } from "react-icons/fa";
 import { Tag } from "./Tag";
 import getImageData from "../../utils/fileUtils";
+
 interface CocktailProps{
     id: number;
     key?: number;
     image: string;
     name: string;
     likes: number;
-    tags: TagDto[];
+    tags: ITag[];
 
     clickEvent: () => void;
 }
@@ -22,7 +23,7 @@ export const Cocktail: React.FC<CocktailProps> = ({image, name, likes, tags, cli
 
     useEffect(() => {
         getImageData(image, "cocktail", setImageData);
-    }, []);
+    }, [image]);
     
     const displayedTags = tags.slice(0, 2); 
     const remainingTagsCount = tags.length - 2; 
@@ -30,7 +31,7 @@ export const Cocktail: React.FC<CocktailProps> = ({image, name, likes, tags, cli
     return (
         <CocktailContainer onClick={clickEvent}>
             <DetailsDiv>
-                <Image src={imageData} alt="Cocktail Image"/>
+                <Image src={imageData} alt="Cocktail Image" loading = "lazy"/>
                 <CocktailName>{name}</CocktailName>
             </DetailsDiv>
             <TagDiv>

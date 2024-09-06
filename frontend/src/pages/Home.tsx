@@ -5,14 +5,14 @@ import { useEffect, useState } from "react";
 import api from "../utils/api.ts";
 import { Cocktail } from "../components/Entities/Cocktail.tsx";
 import { Column, Columns } from "../styled-components/Common.tsx";
-import { CocktailDto } from "../Dtos/CocktailDto.tsx";
+import { ICocktail } from "../components/Interfaces/ICocktail.tsx";
 import styled from "styled-components";
 
 
 function Home() {
     
 
-    const [cocktails, setCocktails] = useState<CocktailDto[]>([]);
+    const [cocktails, setCocktails] = useState<ICocktail[]>([]);
     const [error, setError] = useState<string | null> (null)
 
     useEffect (() => {

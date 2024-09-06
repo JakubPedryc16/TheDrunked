@@ -1,60 +1,31 @@
 import { FormEvent, useEffect, useState } from "react";
-import { IngredientDto } from "../Dtos/IngredientsDto";
-import { TagDto } from "../Dtos/TagDto";
+import { IIngredient } from "../Interfaces/IIngredients";
+import { ITag } from "../Interfaces/ITag";
 
-import api from "../utils/api";
-import { Ingredient } from "../components/Entities/Ingredient";
-import { Tag } from "../components/Entities/Tag";
+import api from "../../utils/api";
+import { Ingredient } from "../Entities/Ingredient";
+import { Tag } from "../Entities/Tag";
 import styled from "styled-components";
-import { SearchBar } from "../components/Other/SearchBar";
-import { Columns, Column } from "../styled-components/Common";
 
-interface ItemContainerProps {
-    title: string;
-    children: React.ReactNode;
-}
-
-interface SearchSectionProps<T> {
-    placeholder: string;
-    onSearch: (value: string) => void;
-    items: T[];
-    renderItem: (item: T) => JSX.Element;
-    children?: React.ReactNode;
-}
-
-const ItemContainer: React.FC<ItemContainerProps> = ({title, children}) => (
-    <div>
-        <div>{title}</div>
-        <ItemContainerDiv>{children}</ItemContainerDiv>
-    </div>
-);
-
-const SearchSection = <T,>({ placeholder, onSearch, items, renderItem, children}: SearchSectionProps<T>) => (
-    <Section>
-        <SearchBar placeholder={placeholder} onSearch={onSearch}/>
-        {children}
-        <ItemContainerDiv>
-            {Array.isArray(items) && items.map(renderItem)}
-        </ItemContainerDiv>
-    </Section>
-
-);
+import { Columns, Column } from "../../styled-components/Common";
+import { SearchSection } from "../Common/SearchSection";
+import { ItemContainer } from "../Common/ItemsContainer";
 
 export const AddCocktailForm = () => {
 
     const [name, setName] = useState<string>('');
     const [image, setImage] = useState<string>('');
     const [description, setDescription] = useState<string>('');
-    const [ingredients, setIngredients] = useState<IngredientDto[]>([]);
-    const [tags, setTags] = useState<TagDto[]>([]);
+    const [ingredients, setIngredients] = useState<IIngredient[]>([]);
+    const [tags, setTags] = useState<ITag[]>([]);
 
     const [imageFile, setImageFile] = useState<File | null>(null);
 
-    const [filteredIngredients, setFilteredIngredients] = useState<IngredientDto[]>([]);
-    const [filteredTags, setFilteredTags] = useState<TagDto[]>([]);
+    const [filteredIngredients, setFilteredIngredients] = useState<IIngredient[]>([]);
+    const [filteredTags, setFilteredTags] = useState<ITag[]>([]);
 
-    const [selectedIngredients, setSelectedIngredients] = useState<IngredientDto[]>([]);
-    const [selectedTags, setSelectedTags] = useState<TagDto[]>([]);
+    const [selectedIngredients, setSelectedIngredients] = useState<IIngredient[]>([]);
+    const [selectedTags, setSelectedTags] = useState<ITag[]>([]);
 
     const [ingredientAmount, setIngredientAmount] = useState<string>('');
 
@@ -95,15 +66,15 @@ export const AddCocktailForm = () => {
         setFilteredTags(filtered);
     }
     
-    function addTag(tag: TagDto){
+    function addTag(tag: ITag){
         const isAlreadyInAdded = selectedTags.some(currentTag => currentTag.id === tag.id);
         if(!isAlreadyInAdded) {
             setSelectedTags (selectedTags => [...selectedTags, tag])
         }
     }
 
-    function addIngredient(ingredient: IngredientDto, amount:string) {
-
+    function addIngredient(ingredient: IIngredient, amount:string) {
+        
         if(!amount) {
             setErrorMessage("Please add ingredient amount");
             return;
@@ -121,12 +92,12 @@ export const AddCocktailForm = () => {
         
     }
 
-    function deleteTag(tag: TagDto) {
+    function deleteTag(tag: ITag) {
         const tagsWithoutDeleted = selectedTags.filter(currentTag => currentTag.id !== tag.id)
         setSelectedTags(tagsWithoutDeleted);
     }
 
-    function deleteIngredient(ingredient: IngredientDto) {
+    function deleteIngredient(ingredient: IIngredient) {
         const ingredientsWithoutDeleted = selectedIngredients.filter(currentIngredient => currentIngredient.id !== ingredient.id)
         setSelectedIngredients(ingredientsWithoutDeleted);
     }
@@ -174,14 +145,14 @@ export const AddCocktailForm = () => {
                         'Content-Type': 'multipart/form-data'
                     }
                 });
-                console.log(responseImage.data);
+
 
             const response = await api.post("user/cocktail/add",
                  {
                     id: 0,
                     name: name,
                     description: description,
-                    image: image,
+                    image: responseImage.data,
                     tags: selectedTags,
                     ingredients: selectedIngredients
                  }
@@ -238,7 +209,7 @@ export const AddCocktailForm = () => {
                         onChange={(event) => setIngredientAmount(event.target.value)}
                         placeholder="ecnter ingredient amount" 
                     />
-                    <SearchSection<IngredientDto>
+                    <SearchSection<IIngredient>
                         placeholder="Search Ingredients"
                         onSearch={filterIngredients}
                         items={filteredIngredients}
@@ -248,7 +219,7 @@ export const AddCocktailForm = () => {
                         )}
                     />
 
-                    <SearchSection<TagDto>
+                    <SearchSection<ITag>
                         placeholder="Search Tags"
                         onSearch={filterTags}
                         items={filteredTags}
@@ -263,24 +234,6 @@ export const AddCocktailForm = () => {
     );
 }
 
-const ItemContainerDiv = styled.div`
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-
-    max-height: 300px;
-    margin: 10px;
-
-    overflow: auto;
-    &::-webkit-scrollbar {
-        display: none; 
-    }
-`
-const Section = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 10px;
-`
 const InputsContainer = styled.div`
     display: flex;
     flex-direction: column;
