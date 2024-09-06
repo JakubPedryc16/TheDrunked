@@ -3,10 +3,11 @@ import {Button} from "../components/Other/Button.tsx";
 import MainContent from "../components/Common/MainContent.tsx";
 import { useEffect, useState } from "react";
 import api from "../utils/api.ts";
-import { Cocktail } from "../components/Entities/Cocktail.tsx";
+
 import { Column, Columns } from "../styled-components/Common.tsx";
 import { ICocktail } from "../components/Interfaces/ICocktail.tsx";
 import styled from "styled-components";
+import Cocktail from "../components/Entities/Cocktail.tsx";
 
 
 function Home() {

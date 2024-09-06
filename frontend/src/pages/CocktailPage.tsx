@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import MainContent from "../components/Common/MainContent";
 import { Column, Columns } from "../styled-components/Common";
 
-import { Cocktail } from "../components/Entities/Cocktail";
+
 import api from "../utils/api";
 
 import { DetailedCocktail } from "../components/Entities/DetailedCocktail";
@@ -13,6 +13,8 @@ import { CocktailWithIngredients, EditCocktailIngredientsForm } from "../compone
 import { CocktailWithTags, EditCocktailTagsForm } from "../components/Forms/EditCocktailTagsForm";
 import { EDIT_MODE, IDetailedCocktail } from "../components/Interfaces/IDetailedCocktail";
 import { SearchSection } from "../components/Common/SearchSection";
+
+const Cocktail = lazy(() => import("../components/Entities/Cocktail"))
 
 
 
@@ -203,11 +205,13 @@ function CocktailPage() {
                             onSearch={updateFilteredCocktails}
                             items={filteredCocktails}
                             renderItem={filteredCocktail => (
-                                <Cocktail 
-                                {...filteredCocktail}
-                                key={filteredCocktail.id} 
-                                clickEvent={() => setSelectedCocktail(filteredCocktail)} 
-                                />
+                                <Suspense fallback={<div>Loading...</div>}>
+                                    <Cocktail 
+                                    {...filteredCocktail}
+                                    key={filteredCocktail.id} 
+                                    clickEvent={() => setSelectedCocktail(filteredCocktail)} 
+                                    />
+                                </Suspense>
                             )}
                         />
                     </CocktailsContainer>

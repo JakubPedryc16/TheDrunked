@@ -7,7 +7,7 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class FormCocktailDto {
+public class FormCocktailDto implements HasTags, HasIngredients{
 
     private final Long id;
     private final String name;

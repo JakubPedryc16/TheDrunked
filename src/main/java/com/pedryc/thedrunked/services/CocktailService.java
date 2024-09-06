@@ -1,8 +1,13 @@
 package com.pedryc.thedrunked.services;
 
 import com.pedryc.thedrunked.Dtos.FormCocktailDto;
+import com.pedryc.thedrunked.Dtos.HasIngredients;
+import com.pedryc.thedrunked.Dtos.HasTags;
 import com.pedryc.thedrunked.Dtos.CocktailIngredientDto;
 import com.pedryc.thedrunked.Dtos.DetailedCocktailDto;
+import com.pedryc.thedrunked.Dtos.EditCocktailDto;
+import com.pedryc.thedrunked.Dtos.EditCocktailIngredientsDto;
+import com.pedryc.thedrunked.Dtos.EditCocktailTagsDto;
 import com.pedryc.thedrunked.entities.*;
 import com.pedryc.thedrunked.repositories.CocktailRepository;
 import com.pedryc.thedrunked.repositories.IngredientRepository;
@@ -12,6 +17,7 @@ import com.pedryc.thedrunked.repositories.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 
+import org.apache.tomcat.util.http.fileupload.MultipartStream.IllegalBoundaryException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -91,6 +97,44 @@ public class CocktailService {
         newCocktail.setTags(tags);
         cocktailRepository.save(newCocktail);
     }
+    
+    @Transactional
+    public void editCocktail(EditCocktailDto cocktailDto) throws IllegalArgumentException {
+
+        CocktailEntity cocktail = cocktailRepository.findById(cocktailDto.getId())
+            .orElseThrow(() -> new IllegalArgumentException("Cocktail Not Found"));
+
+            cocktail.setName(cocktailDto.getName());
+            cocktail.setImage(cocktailDto.getImage());
+            cocktail.setDescription(cocktailDto.getDescription());  
+            
+            cocktailRepository.save(cocktail);
+    }
+
+    @Transactional
+    public void editCocktailIngredients(EditCocktailIngredientsDto cocktailDto) throws IllegalArgumentException {
+        CocktailEntity cocktail = cocktailRepository.findById(cocktailDto.getId())
+        .orElseThrow(() -> new IllegalArgumentException("Cocktail Not Found"));
+
+        List<CocktailIngredientEntity> ingredients = getCocktailsIngredients(cocktailDto, cocktail);
+
+        cocktail.getIngredients().clear();
+        cocktail.getIngredients().addAll(ingredients);
+        cocktailRepository.save(cocktail);
+    }
+
+    @Transactional
+    public void editCocktailTags(EditCocktailTagsDto cocktailDto) throws IllegalArgumentException {
+        CocktailEntity cocktail = cocktailRepository.findById(cocktailDto.getId())
+        .orElseThrow(() -> new IllegalArgumentException("Cocktail Not Found"));
+
+        List<TagEntity> tags = getTags(cocktailDto);
+
+
+        cocktail.getTags().clear();
+        cocktail.getTags().addAll(tags);
+        cocktailRepository.save(cocktail);
+    }
 
     private UserEntity getCurrentUser() throws ResponseStatusException, IllegalArgumentException{
         
@@ -106,7 +150,7 @@ public class CocktailService {
     }
 
     private List<CocktailIngredientEntity> getCocktailsIngredients (
-            FormCocktailDto cocktailDto,
+            HasIngredients cocktailDto,
             CocktailEntity newCocktail
          ) {
 
@@ -130,7 +174,7 @@ public class CocktailService {
         return ingredients;
     }
 
-    private List<TagEntity> getTags(FormCocktailDto cocktailDto){
+    private List<TagEntity> getTags(HasTags cocktailDto){
         List<TagEntity> tags = cocktailDto.getTags().stream()
         .map(tagDto -> {
             TagEntity newTag = tagRepository.findById(tagDto.getId())

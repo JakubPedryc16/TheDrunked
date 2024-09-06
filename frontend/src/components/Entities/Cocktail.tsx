@@ -17,7 +17,7 @@ interface CocktailProps{
     clickEvent: () => void;
 }
 
-export const Cocktail: React.FC<CocktailProps> = ({image, name, likes, tags, clickEvent}) => {
+const Cocktail: React.FC<CocktailProps> = ({image, name, likes, tags, clickEvent}) => {
 
     const [imageData, setImageData] = useState<string>("")
 
@@ -51,6 +51,7 @@ export const Cocktail: React.FC<CocktailProps> = ({image, name, likes, tags, cli
     );
 }
 
+export default Cocktail;
 
 const LikesDiv = styled.div`
   display: flex;
@@ -95,8 +96,6 @@ const TagDiv = styled.div`
     height: 50px;
     width: 150px;
     padding: 5px;
-
-    overflow: hidden;
 `
 
 const DetailsDiv = styled.div`

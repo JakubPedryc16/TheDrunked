@@ -7,11 +7,11 @@ import java.nio.file.Paths;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ClassPathResource;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StreamUtils;
+
 import org.springframework.web.bind.annotation.GetMapping;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -74,7 +74,7 @@ public class FileController {
             Files.createDirectories(uploadPath.getParent());
             file.transferTo(uploadPath.toFile());
     
-            return ResponseEntity.ok("File uploaded successfully with name: " + uniqueFileName);
+            return ResponseEntity.ok(uniqueFileName);
     
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

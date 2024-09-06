@@ -2,6 +2,9 @@ package com.pedryc.thedrunked.controllers;
 
 import com.pedryc.thedrunked.Dtos.FormCocktailDto;
 import com.pedryc.thedrunked.Dtos.DetailedCocktailDto;
+import com.pedryc.thedrunked.Dtos.EditCocktailDto;
+import com.pedryc.thedrunked.Dtos.EditCocktailIngredientsDto;
+import com.pedryc.thedrunked.Dtos.EditCocktailTagsDto;
 import com.pedryc.thedrunked.services.CocktailService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -57,6 +60,48 @@ public class CocktailController {
             return ResponseEntity
                     .status(error.getStatusCode())
                     .body(error.getMessage());
+        } catch (IllegalArgumentException error){
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(error.getMessage());
+        }
+    }
+
+    @PutMapping("/user/cocktail/edit")
+    public ResponseEntity<?> editCocktail(@RequestBody EditCocktailDto cocktail) {
+        try {
+            cocktailService.editCocktail(cocktail);
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body("Cocktail Successfully Edited");
+        } catch (IllegalArgumentException error){
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(error.getMessage());
+        }
+    }
+
+    @PutMapping("/user/cocktail/ingredients/edit")
+    public ResponseEntity<?> editCocktailIngredients(@RequestBody EditCocktailIngredientsDto cocktail) {
+        try {
+            cocktailService.editCocktailIngredients(cocktail);
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body("Cocktail Successfully Edited");
+        } catch (IllegalArgumentException error){
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(error.getMessage());
+        }
+    }
+
+    @PutMapping("/user/cocktail/tags/edit")
+    public ResponseEntity<?> editCocktailTags(@RequestBody EditCocktailTagsDto cocktail) {
+        try {
+            cocktailService.editCocktailTags(cocktail);
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body("Cocktail Successfully Edited");
         } catch (IllegalArgumentException error){
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
