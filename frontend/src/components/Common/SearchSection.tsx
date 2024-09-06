@@ -43,9 +43,9 @@ export const SearchSection = <T,>({ placeholder, onSearch, items, renderItem }: 
         console.log('Element visible:', entered); // Dodaj to, aby zobaczyć, kiedy element staje się widoczny
       }, [entered]);
     return (
-      <div ref={itemRef}>
+      <Elem ref={itemRef}>
         {entered ? <Suspense fallback={<div>Loading...</div>}>{children}</Suspense> : null}
-      </div>
+      </Elem>
     );
   };
 
@@ -67,3 +67,9 @@ const Section = styled.div`
     align-items: center;
     margin: 10px;
 `;
+
+const Elem = styled.div`
+    width: 150px;
+    height: 200px;
+
+`

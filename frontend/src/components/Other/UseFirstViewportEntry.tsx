@@ -32,18 +32,14 @@ export const UseFirstViewportEntry = (
         
         observer.current = new IntersectionObserver(
           ([entry]) => {
-            console.log('Intersection Entry:', entry);
+
             setEntered(entry.isIntersecting);
           },
           options
         );
         observer.current.observe(element);
 
-        console.log('Container Height:', container?.clientHeight);
-        console.log('Element Top:', element?.getBoundingClientRect().top);
-        console.log('Container Top:', container?.getBoundingClientRect().top);
-        console.log('Element Bot:', element?.getBoundingClientRect().bottom);
-        console.log('Container Bot:', container?.getBoundingClientRect().bottom);
+
       }
   
       return () => {
