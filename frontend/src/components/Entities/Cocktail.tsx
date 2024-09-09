@@ -23,6 +23,9 @@ const Cocktail: React.FC<CocktailProps> = ({image, name, likes, tags, clickEvent
 
     useEffect(() => {
         getImageData(image, "cocktail", setImageData);
+        if (imageData) {
+            URL.revokeObjectURL(imageData);
+          }
     }, [image]);
     
     const displayedTags = tags.slice(0, 2); 

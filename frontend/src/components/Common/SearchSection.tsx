@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { SearchBar } from "../Other/SearchBar";
 
-import { Suspense, useEffect, useRef } from "react";
+import { Suspense, useRef } from "react";
 import { UseFirstViewportEntry } from "../Other/UseFirstViewportEntry";
 
 
@@ -39,9 +39,7 @@ export const SearchSection = <T,>({ placeholder, onSearch, items, renderItem }: 
   const LazyItem: React.FC<{ children: React.ReactNode, containerRef: React.RefObject<HTMLDivElement> }> = ({ children, containerRef }) => {
     const itemRef = useRef<HTMLDivElement | null>(null);
     const entered = UseFirstViewportEntry(itemRef, containerRef);
-    useEffect(() => {
-        console.log('Element visible:', entered); // Dodaj to, aby zobaczyć, kiedy element staje się widoczny
-      }, [entered]);
+
     return (
       <Elem ref={itemRef}>
         {entered ? <Suspense fallback={<div>Loading...</div>}>{children}</Suspense> : null}

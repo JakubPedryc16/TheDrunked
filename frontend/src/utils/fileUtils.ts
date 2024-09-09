@@ -12,12 +12,15 @@ async function getImageData(image: string, type: string, setImage: (blob: string
         if(res.data){
             const blob = URL.createObjectURL(res.data);
             setImage(blob)
+            
         } else {
             console.log("Unable to load cocktail image");
         }
    } catch(error) {
     console.error("Error fetching cocktail image", error);
    }
+
+   
 }
 
 export default getImageData

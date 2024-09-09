@@ -6,6 +6,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
 
+import javax.imageio.ImageIO;
+
 import org.springframework.beans.factory.annotation.Value;
 
 import org.springframework.http.HttpStatus;
@@ -19,6 +21,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.awt.image.BufferedImage;
+import java.awt.Graphics2D;
+
+import java.io.ByteArrayOutputStream;
 
 @RestController
 public class FileController {
@@ -61,18 +67,15 @@ public class FileController {
         }
         try {
             String originalFileName = file.getOriginalFilename();
-
             String sanitizedFileName = originalFileName.replaceAll("\\s+", "_");
-    
             String uniqueFileName = UUID.randomUUID().toString() + "_" + sanitizedFileName;
     
-            if (!uniqueFileName.matches("[a-zA-Z0-9_-]+\\.(jpg|jpeg|png)")) {
-                return ResponseEntity.badRequest().body("Invalid file type. Only .jpg, .jpeg, and .png files are accepted.");
-            }
+            byte[] resizedImageBytes = resizeImage(file, 800, 600);
     
             Path uploadPath = Paths.get(uploadDir).resolve("cocktail").resolve(uniqueFileName);
             Files.createDirectories(uploadPath.getParent());
-            file.transferTo(uploadPath.toFile());
+
+            Files.write(uploadPath, resizedImageBytes);
     
             return ResponseEntity.ok(uniqueFileName);
     
@@ -81,6 +84,7 @@ public class FileController {
                     .body("An error occurred while uploading the file.");
         }
     }
+    
     private MediaType getMediaTypeForFileName(String fileName) {
         if (fileName.endsWith(".png")) {
             return MediaType.IMAGE_PNG;
@@ -90,5 +94,33 @@ public class FileController {
             return MediaType.APPLICATION_OCTET_STREAM;
         }
     }
+
+    private byte[] resizeImage(MultipartFile file, int maxWidth, int maxHeight) throws IOException {
+    BufferedImage originalImage = ImageIO.read(file.getInputStream());
+    int originalWidth = originalImage.getWidth();
+    int originalHeight = originalImage.getHeight();
+
+    int newWidth = originalWidth;
+    int newHeight = originalHeight;
+
+    if (originalWidth > maxWidth) {
+        newWidth = maxWidth;
+        newHeight = (int) ((double) originalHeight * (maxWidth / (double) originalWidth));
+    }
+
+    if (newHeight > maxHeight) {
+        newHeight = maxHeight;
+        newWidth = (int) ((double) originalWidth * (maxHeight / (double) originalHeight));
+    }
+
+    BufferedImage resizedImage = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_RGB);
+    Graphics2D graphics2D = resizedImage.createGraphics();
+    graphics2D.drawImage(originalImage, 0, 0, newWidth, newHeight, null);
+    graphics2D.dispose();
+
+    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    ImageIO.write(resizedImage, "jpg", outputStream);
+    return outputStream.toByteArray();
+}
 
 }
