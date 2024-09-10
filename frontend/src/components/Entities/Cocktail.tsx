@@ -32,25 +32,29 @@ const Cocktail: React.FC<CocktailProps> = ({image, name, likes, tags, clickEvent
     const remainingTagsCount = tags.length - 2; 
 
     return (
-        <CocktailContainer onClick={clickEvent}>
-            <DetailsDiv>
-                <Image src={imageData} alt="Cocktail Image" loading = "lazy"/>
-                <CocktailName>{name}</CocktailName>
-            </DetailsDiv>
-            <TagDiv>
-                {displayedTags.map((tag) => (
-                    <Tag key={tag.id} {...tag} />
-                ))}
-                {remainingTagsCount > 0 && (
-                    <RemainingTags>{`+${remainingTagsCount}`}</RemainingTags>
-                )}
-            </TagDiv>
-            <LikesDiv>
-                <FaHeart color="red"/>
-                {likes}
-            </LikesDiv>
+        <BackgroundDiv onClick={clickEvent}>
+                <NameDiv>
+                    <CocktailName>{name}</CocktailName>
+                </NameDiv>
 
-        </CocktailContainer>
+                <Image src={imageData} alt="Cocktail Image" loading = "lazy"/>
+
+            <ItemContainerDiv>
+                    <TagDiv>
+                        {displayedTags.map((tag) => (
+                            <Tag key={tag.id} {...tag} />
+                        ))}
+                        {remainingTagsCount > 0 && (
+                            <RemainingTags>{`+${remainingTagsCount}`}</RemainingTags>
+                        )}
+                        <LikesDiv>
+                            <FaHeart color="red"/>
+                            {likes}
+                        </LikesDiv>
+                    </TagDiv>
+
+                </ItemContainerDiv>
+        </BackgroundDiv>
     );
 }
 
@@ -60,15 +64,15 @@ const LikesDiv = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
-  gap: 2px;
+  margin-left: auto; 
+  padding-right: 20px;
 `;
 
 const Image = styled.img`
     object-fit: cover;
-    width: 50px;
-    height: 70px;
-    border-radius: 10px;
+    width: 200px;
+    height: 150px;
+
 `
 
 const CocktailContainer = styled.div`
@@ -76,35 +80,38 @@ const CocktailContainer = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border-radius: 10px;
-    gap: 10px;
 
-    width: 150px;
-    height: 200px;
 
     background-color: rgb(49, 86, 89);
-    padding: 5px;
 `
 
 const TagDiv = styled.div`
     display: flex;
     flex-direction: row;
 
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    gap: 3px;
 
     border-radius: 10px;
-
+    gap: 5px;
+    padding-left: 20px;
     height: 50px;
-    width: 150px;
-    padding: 5px;
+    width: 200px;
+
 `
 
-const DetailsDiv = styled.div`
-    /* background-color: green; */
-    border-radius: 10px;
-    padding: 5px;
+const NameDiv = styled.div`
+    display: flex;
+    align-items: center;
+
+    height: 30px;
+    width: 200px;
+    border-radius: 10px 10px 0 0;
+    background-color: rgba(0, 0, 0, 0.2);
+    text-align: start;
+    padding-left: 20px;
+
+
 `
 
 const CocktailName = styled.div`
@@ -117,5 +124,28 @@ const RemainingTags = styled.div`
     padding: 8px;
     font-size: 12px;
     border-radius: 5px;
+`;
+
+const ItemContainerDiv = styled.div`
+    background-color: rgba(0, 0, 0, 0.2);
+
+    border-radius: 0px 0px 10px 10px;
+
+    width: 200px;
+    height: 50px;
+
+
+`;
+
+const BackgroundDiv = styled.div`
+
+    width: 200px;
+    height: 250px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
 `;
 

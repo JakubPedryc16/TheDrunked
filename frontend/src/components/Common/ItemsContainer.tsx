@@ -17,6 +17,8 @@ const ItemContainerDiv = styled.div`
 
     max-height: 300px;
     margin: 10px;
+    gap: 10px;
+    width: 30vw;
 
     overflow: auto;
     &::-webkit-scrollbar {

@@ -13,17 +13,19 @@ interface SearchSectionProps<T> {
     items: T[];
     renderItem: (item: T) => JSX.Element;
     children?: React.ReactNode;
+    width?: string;  
+    height?: string;
 }
 
 
 
-export const SearchSection = <T,>({ placeholder, onSearch, items, renderItem }: SearchSectionProps<T>) => {
+export const SearchSection = <T,>({ placeholder, onSearch, items, renderItem, width = "35vw", height = "60vh"  }: SearchSectionProps<T>) => {
     const containerRef = useRef<HTMLDivElement | null>(null);
   
     return (
       <Section>
         <SearchBar placeholder={placeholder} onSearch={onSearch} />
-        <ItemContainerDiv ref={containerRef}>
+        <ItemContainerDiv ref={containerRef} width={width} height={height}>
           {Array.isArray(items) &&
             items.map((item, index) => (
               <LazyItem key={index} containerRef={containerRef}>
@@ -47,12 +49,20 @@ export const SearchSection = <T,>({ placeholder, onSearch, items, renderItem }: 
     );
   };
 
-const ItemContainerDiv = styled.div`
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
+interface ItemContainerProps {
+  width: string;
+  height: string;
+}
 
-    height: 300px;
+const ItemContainerDiv = styled.div<ItemContainerProps>`
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: min-content;
+
+    height: ${(props) => props.height}; 
+    width: ${(props) => props.width};   
     margin: 10px;
+    gap: 10px;
 
     overflow: auto;
     &::-webkit-scrollbar {
@@ -62,12 +72,11 @@ const ItemContainerDiv = styled.div`
 const Section = styled.div`
     display: flex;
     flex-direction: column;
-    align-items: center;
+
     margin: 10px;
 `;
 
 const Elem = styled.div`
-    width: 150px;
-    height: 200px;
+  display: inline-block;
 
 `

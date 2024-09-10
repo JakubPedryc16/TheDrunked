@@ -21,7 +21,8 @@ public class CocktailEntity {
     @Column(name = "cocktail_name")
     private String name;
 
-    @Column(name = "cocktail_description")
+    @Column(name = "cocktail_description", columnDefinition="TEXT")
+    @Lob
     private String description;
 
     @Column(name = "cocktail_image")

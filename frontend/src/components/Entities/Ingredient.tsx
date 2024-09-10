@@ -28,9 +28,18 @@ const Image = styled.img`
 `
 
 const IngredientContainer = styled.div`
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    padding: 10px;
     border-radius: 10px;
     background-color: rgb(49, 86, 89);
-    padding: 10px;
+
+
+    width: 100%;
 `
 
 const NameDiv = styled.div`

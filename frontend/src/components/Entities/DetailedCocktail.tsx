@@ -9,7 +9,7 @@ import getImageData from "../../utils/fileUtils";
 
 
 
-export const DetailedCocktail:React.FC<IDetailedCocktail> = (({name, image, description, likes, ingredients, tags, editable, handleLike, setEditMode}) => {
+export const DetailedCocktail:React.FC<IDetailedCocktail> = (({name, image, description, likes, ingredients, tags, editable, handleLike, setEditMode, handleDelete}) => {
     const [imageData, setImageData] = useState<string>("")
 
     useEffect(() => {
@@ -24,12 +24,14 @@ export const DetailedCocktail:React.FC<IDetailedCocktail> = (({name, image, desc
                     {name}
                 </CocktailName>
                 <Image src={imageData} alt="Cocktail Image" loading = "lazy"/>
-                <CocktailDescription>{description}</CocktailDescription>
                 <LikesDiv onClick={handleLike}>
                     <FaHeart color="red"/>
                     {likes}
                 </LikesDiv>
             </DetailsDiv>
+            <DescriptionDiv>
+                {description}
+            </DescriptionDiv>
             <TagDiv>
                 {editable && <EditIcon onClick={() => setEditMode(EDIT_MODE.TAGS)}/>}
                 {Array.isArray(tags) && tags.map(tag => (
@@ -42,6 +44,7 @@ export const DetailedCocktail:React.FC<IDetailedCocktail> = (({name, image, desc
                     <Ingredient key={ingredient.id} {...ingredient}/>
                 ))}
             </IngredientDiv>
+            <Button onClick={handleDelete}>Delete Cocktail</Button>
         </CocktailDiv>
     );
 })
@@ -69,17 +72,17 @@ const CocktailDiv = styled.div`
 
     gap: 5px;
     border-radius: 10px;
-    height: 500px;
-    width: 500px;
+    height: 70vh;
+    width: 35vw;
 
 
 `
 
 const IngredientDiv = styled.div`
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+    grid-template-columns: repeat(4, 1fr);
     justify-items: center;
-
+    gap: 10px;
     column-gap: 10px;
     border-radius: 10px;
     padding: 10px;
@@ -89,7 +92,7 @@ const IngredientDiv = styled.div`
     overflow: auto;
 
     position: relative;
-    width: 80%;
+    width: 90%;
     background-color:  rgba(0,0,0, 0.2);
 `
 
@@ -106,7 +109,7 @@ const TagDiv = styled.div`
     overflow: auto;
 
     position: relative;
-    width: 80%;
+    width: 90%;
     background-color:  rgba(0,0,0, 0.2);
 `
 
@@ -114,20 +117,26 @@ const DetailsDiv = styled.div`
     border-radius: 10px;
 
     position: relative;
-    width: 80%;
+    width: 90%;
     background-color:  rgba(0,0,0, 0.2);
 
 `
+const DescriptionDiv = styled.div`
+    border-radius: 10px;
+    font-size: 16px;
+    position: relative;
+    width: 90%;
+    background-color: rgba(0,0,0, 0.2);
+    max-height: 200px;
+    overflow: auto;
+    white-space: pre-wrap; 
+`;
 
 const CocktailName = styled.div`
     font-size: 32px;
     margin-bottom: 10px;
 `
 
-const CocktailDescription = styled.div`
-    font-size: 16px;
-
-`
 
 const Image = styled.img`
     object-fit: cover;
@@ -135,3 +144,26 @@ const Image = styled.img`
     border-radius: 10px;
 `
 
+const Button = styled.button`
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+`;

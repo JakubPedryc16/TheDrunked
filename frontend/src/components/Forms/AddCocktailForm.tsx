@@ -20,6 +20,7 @@ export const AddCocktailForm = () => {
     const [tags, setTags] = useState<ITag[]>([]);
 
     const [imageFile, setImageFile] = useState<File | null>(null);
+    const [imageBlob, setImageBlob] = useState<string>()
 
     const [filteredIngredients, setFilteredIngredients] = useState<IIngredient[]>([]);
     const [filteredTags, setFilteredTags] = useState<ITag[]>([]);
@@ -100,13 +101,15 @@ export const AddCocktailForm = () => {
     function deleteIngredient(ingredient: IIngredient) {
         const ingredientsWithoutDeleted = selectedIngredients.filter(currentIngredient => currentIngredient.id !== ingredient.id)
         setSelectedIngredients(ingredientsWithoutDeleted);
+
     }
 
     function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
         const file = event.target.files?.[0];
-        if (file) {
-            setImageFile(file);
-            setImage(file.name);
+        if(file){
+            setImageFile(file)
+            setImage(file.name)
+            setImageBlob(URL.createObjectURL(file));
         }
     }
 
@@ -171,19 +174,23 @@ export const AddCocktailForm = () => {
                 <Column>
                     {errorMessage}
                     <InputsContainer>
-                        <input 
+                       
+                        <FileInput 
                             type="file"
                             onChange={handleFileChange}
                         />
-                        <input 
+                        <Image src={imageBlob} alt="Cocktail Image"/>
+
+                        <Input 
                             value={name} 
                             onChange={(event) => setName(event.target.value)}
                             placeholder="name"
                         />
-                        <input 
+                        <TextArea 
                             value={description} 
                             onChange={(event) => setDescription(event.target.value)}
                             placeholder="description"
+                            
                         />
                     </InputsContainer>
 
@@ -200,23 +207,24 @@ export const AddCocktailForm = () => {
                         ))}
                     />
    
-                    <button type="submit">Submit</button>
+                    <Button type="submit">Submit</Button>
                 </Column>
 
                 <Column>
-                    <input
-                        value = {ingredientAmount}
-                        onChange={(event) => setIngredientAmount(event.target.value)}
-                        placeholder="ecnter ingredient amount" 
-                    />
+   
                     <SearchSection<IIngredient>
                         placeholder="Search Ingredients"
                         onSearch={filterIngredients}
                         items={filteredIngredients}
                         renderItem={ingredient => (
                             <Ingredient key={ingredient.id} clickEffect={() => addIngredient(ingredient, ingredientAmount)}  {...ingredient}/>
-                            
                         )}
+                        height="30vh"       
+                    />
+                    <Input
+                        value = {ingredientAmount}
+                        onChange={(event) => setIngredientAmount(event.target.value)}
+                        placeholder="Enter ingredient amount" 
                     />
 
                     <SearchSection<ITag>
@@ -225,8 +233,8 @@ export const AddCocktailForm = () => {
                         items={filteredTags}
                         renderItem={tag => (
                             <Tag key={tag.id} clickEffect={() => addTag(tag)}  {...tag}/>
-                            
                         )}
+                        height="30vh"
                     />
                 </Column>
             </Columns>
@@ -234,10 +242,95 @@ export const AddCocktailForm = () => {
     );
 }
 
+
+const Image = styled.img`
+    object-fit: cover;
+    width: 200px;
+    height: 150px;
+    border-radius: 10px;
+`
 const InputsContainer = styled.div`
     display: flex;
     flex-direction: column;
-
+    gap: 10px;
+    width: 80%;
     margin: 10px;
 `
+const TextArea = styled.textarea`
+  width: 100%;
+  height: 150px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  resize: vertical;
+  font-size: 16px;
+  line-height: 1.5;
+  overflow: auto;
+  background-color: #f9f9f9;
+  color: #333;
 
+  &:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+`;
+const FileInput = styled.input.attrs({ type: 'file' })`
+    width: 100%;
+    padding: 10px;
+    background-color: rgba(0,0,0, 0.5);
+    border-radius: 4px;
+    background-color: rgba(0,0,0,0.2);
+    color: white;
+    box-sizing: border-box;
+    cursor: pointer;
+
+  &::-webkit-file-upload-button {
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px;
+    cursor: pointer;
+  }
+`;
+
+const Input = styled.input`
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 16px;
+  color: #333;
+  background-color: #f9f9f9;
+
+  &:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+`;
+
+const Button = styled.button`
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+`;

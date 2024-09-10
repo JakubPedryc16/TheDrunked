@@ -3,6 +3,8 @@ package com.pedryc.thedrunked.controllers;
 import com.pedryc.thedrunked.Dtos.UserDto;
 import com.pedryc.thedrunked.services.UserService;
 
+import jakarta.transaction.Transactional;
+
 import org.springframework.http.HttpStatus;
 
 import org.springframework.http.ResponseEntity;
@@ -48,6 +50,7 @@ public class UserController {
         return userService.getAllUsers();
     }
 
+    @Transactional
     @GetMapping("/user/liked-ids")
     public List<Long> getLikedIds() {
         return userService.getLikedIds();

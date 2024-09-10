@@ -130,6 +130,26 @@ function CocktailPage() {
         );
     }
 
+    async function handleCocktailDelete(cocktailId: number) {
+        const isConfirmed = window.confirm("Czy na pewno chcesz usunąć ten element?");
+        if (!isConfirmed) {
+            return;
+        }
+        try {
+            await api.delete("user/cocktail/delete", {
+                params: {cocktailId: cocktailId}
+            });
+        } catch(error) {
+            setError("Error deleting cocktail");
+            console.error(error)
+        } 
+        setCocktails(cocktails.filter( prevCocktail =>
+            prevCocktail.id !== cocktailId)
+        )
+        setSelectedCocktail(null);
+
+    }
+
     async function handleLike(cocktailId: number) {
         try {
             const shouldLike = !likedIds.some(likedId => (likedId === cocktailId));
@@ -199,7 +219,6 @@ function CocktailPage() {
             <CocktailFilter setFilter={setFilterMode}/>
             <Columns>
                 <Column>
-                 <CocktailsContainer>
                     <SearchSection<IDetailedCocktail>
                             placeholder="Search Cocktails"
                             onSearch={updateFilteredCocktails}
@@ -214,7 +233,6 @@ function CocktailPage() {
                                 </Suspense>
                             )}
                         />
-                    </CocktailsContainer>
                 </Column>
 
 
@@ -226,6 +244,7 @@ function CocktailPage() {
                                 handleLike={() => handleLike(selectedCocktail.id)}
                                 setEditMode={setEditMode} 
                                 editable={editable}
+                                handleDelete={() => handleCocktailDelete(selectedCocktail.id)}
                             />
                         </DetailedContainer>
                     )}
@@ -268,7 +287,6 @@ const DetailedContainer = styled.div`
     flex-direction: row;
     align-items: center;
     justify-content: center;
-
 `
 
 const DetailColumn = styled.div`
@@ -284,3 +302,4 @@ const DetailColumn = styled.div`
     padding: 20px;
     border-radius: 20px;
 `
+
