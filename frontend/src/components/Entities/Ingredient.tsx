@@ -14,17 +14,21 @@ export const Ingredient:React.FC<IIngredient> = (({image, name, amount, clickEff
 
     return(
         <IngredientContainer onClick={() => clickEffect && clickEffect()}>
+            <NameDiv>
+                {name}
+                <AmountDiv>{amount}</AmountDiv>
+                </NameDiv>
             <Image src={imageData} alt="ingredient image"/>
-            <NameDiv>{name}</NameDiv>
-            <AmountDiv>{amount}</AmountDiv>
+
         </IngredientContainer>
     )
 })
 
 const Image = styled.img`
     object-fit: cover;
-    width: 64px;
-    border-radius: 10px;
+    width: 100%;
+    height: 150px;
+    border-radius: 0 0 10px 10px;
 `
 
 const IngredientContainer = styled.div`
@@ -33,17 +37,27 @@ const IngredientContainer = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 5px;
-    padding: 10px;
+
     border-radius: 10px;
     background-color: rgb(49, 86, 89);
 
 
-    width: 100%;
+    width: 150px;
 `
 
 const NameDiv = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    height: 30px;
+    width: 100%;
+    border-radius: 10px 10px 0 0;
+    background-color: rgba(0, 0, 0, 0.2);
+    text-align: start;
+    padding: 15px;
     font-size: 16px;
+
 `
 
 const AmountDiv = styled.div`

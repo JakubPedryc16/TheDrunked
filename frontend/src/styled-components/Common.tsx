@@ -13,9 +13,9 @@ export const Column = styled.div`
     align-items: center;
     gap: 3vw;
     width: 40vw;
-    width: 80vh;
+
 
     background-color: rgba(0,0,0,0.2);
-    padding: 50px;
+    padding: 20px;
     border-radius: 20px;
 `

@@ -7,12 +7,9 @@ import { Ingredient } from "../Entities/Ingredient";
 import { SearchSection } from "../Common/SearchSection";
 import { ItemContainer } from "../Common/ItemsContainer";
 
-
-
 export interface CocktailWithIngredients {
     id: number,
     ingredients: IIngredient[],
-
 }
 
 export interface Props {
@@ -67,10 +64,10 @@ export const EditCocktailIngredientsForm:React.FC<Props & CocktailWithIngredient
                 id: id,
                 ingredients: newIngredients
             }
-            const res = await api.put("user/cocktail/ingredients/edit", 
+            await api.put("user/cocktail/ingredients/edit", 
                 editedCocktailIngredients
             )
-            //alert(res.data)
+
             handleCocktailEdit(editedCocktailIngredients)
             setEditMode();
 
@@ -127,12 +124,6 @@ export const EditCocktailIngredientsForm:React.FC<Props & CocktailWithIngredient
         </ModalOverlay>
     );
 }
-
-const Image = styled.img`
-    object-fit: cover;
-    width: 128px;
-    border-radius: 10px;
-`
 
 const ExitIcon = styled(AiFillCloseCircle)`
   position: absolute;

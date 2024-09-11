@@ -15,7 +15,7 @@ export default function MainContent({ children }: MainContentProps) {
 
 const Wrapper = styled.div`
     width: 90%;
-    margin: 25px auto;
+    margin: 10px auto;
     
     display: flex;
     flex-direction: column;

@@ -67,9 +67,8 @@ public class FileController {
         }
         try {
             String originalFileName = file.getOriginalFilename();
-            String sanitizedFileName = originalFileName.replaceAll("\\s+", "_");
+            String sanitizedFileName = originalFileName.replaceAll("[^a-zA-Z0-9_\\-\\.]", "_");
             String uniqueFileName = UUID.randomUUID().toString() + "_" + sanitizedFileName;
-    
             byte[] resizedImageBytes = resizeImage(file, 800, 600);
     
             Path uploadPath = Paths.get(uploadDir).resolve("cocktail").resolve(uniqueFileName);

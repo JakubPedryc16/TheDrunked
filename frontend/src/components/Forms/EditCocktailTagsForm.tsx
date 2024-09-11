@@ -8,13 +8,11 @@ import { Tag } from "../Entities/Tag";
 import { SearchSection } from "../Common/SearchSection";
 import { ItemContainer } from "../Common/ItemsContainer";
 
-
 export interface CocktailWithTags {
     id: number,
     tags: ITag[],
 
 }
-
 
 export interface Props {
 
@@ -62,10 +60,10 @@ export const EditCocktailTagsForm:React.FC<Props & CocktailWithTags> = ({id, tag
                 id: id,
                 tags: newTags
             }
-            const res = await api.put("user/cocktail/tags/edit", 
+            await api.put("user/cocktail/tags/edit", 
                 editedCocktailTags
             )
-            //alert(res.data)
+
             handleCocktailEdit(editedCocktailTags)
             setEditMode();
 
@@ -117,12 +115,6 @@ export const EditCocktailTagsForm:React.FC<Props & CocktailWithTags> = ({id, tag
         </ModalOverlay>
     );
 }
-
-const Image = styled.img`
-    object-fit: cover;
-    width: 128px;
-    border-radius: 10px;
-`
 
 const ExitIcon = styled(AiFillCloseCircle)`
   position: absolute;
