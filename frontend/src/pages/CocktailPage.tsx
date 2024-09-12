@@ -33,6 +33,7 @@ function CocktailPage() {
     const [filterMode, setFilterMode] = useState<FILTER_MODE>(FILTER_MODE.ALL);
 
     const [userId, setUserId] = useState<number>(0);
+    const [userRole, setUserRole] = useState<string>('');
   
     const [likedIds, setLikedIds] = useState<number[]>([]);
 
@@ -55,11 +56,16 @@ function CocktailPage() {
 
     useEffect(() => {
 
-        async function getUserId() {
+        async function getUserData() {
             try {
                 const res = await api.get("user/me");
                 if(res.data && res.data.id) {
                     setUserId(res.data.id);
+                    if(res.data.role){
+                        setUserRole(res.data.role);
+                    } else {
+                        setUserRole("USER");
+                    }
                 } else {
                     console.log("User not found")
                 }
@@ -70,7 +76,7 @@ function CocktailPage() {
         }
 
         void getCocktails();
-        void getUserId();
+        void getUserData();
         void getLikedIds();
     },[])
 
@@ -80,9 +86,13 @@ function CocktailPage() {
     }, [filterMode]);
 
     function updateFilteredCocktails(inputValue: string){
-        const shouldBeEditable = filterMode !== FILTER_MODE.ALL;
-        setEditable(shouldBeEditable);
-        setSearchText(inputValue);
+        if(userRole === "ADMIN"){
+            setEditable(true);
+        } else {
+            const shouldBeEditable = filterMode !== FILTER_MODE.ALL;
+            setEditable(shouldBeEditable);
+            setSearchText(inputValue);
+        }
     }
 
     function handleCocktailEdit(cocktail: SimpleCocktail) {
@@ -218,6 +228,7 @@ function CocktailPage() {
         <MainContent>
             <CocktailFilter setFilter={setFilterMode}/>
             <Columns>
+            {error}
                 <Column>
                     <SearchSection<IDetailedCocktail>
                             placeholder="Search Cocktails"

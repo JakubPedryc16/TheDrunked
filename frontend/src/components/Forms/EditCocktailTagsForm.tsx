@@ -7,6 +7,7 @@ import { ITag } from "../Interfaces/ITag";
 import { Tag } from "../Entities/Tag";
 import { SearchSection } from "../Common/SearchSection";
 import { ItemContainer } from "../Common/ItemsContainer";
+import { Button, Form, ModalContent, ModalOverlay } from "../../styled-components/Common";
 
 export interface CocktailWithTags {
     id: number,
@@ -108,8 +109,10 @@ export const EditCocktailTagsForm:React.FC<Props & CocktailWithTags> = ({id, tag
                             <Tag key={tag.id} clickEffect={() => addTag(tag)}  {...tag}/>
                             
                         )}
+                        width="500px"
+                        height="200px"
                     />
-                    <button type="submit">Confirm</button>
+                    <Button type="submit">Confirm</Button>
                 </Form>
             </ModalContent>
         </ModalOverlay>
@@ -120,32 +123,4 @@ const ExitIcon = styled(AiFillCloseCircle)`
   position: absolute;
   top: 10px;
   right: 10px;  
-`;
-
-const ModalOverlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5); 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-`;
-
-const ModalContent = styled.div`
-  position: relative;
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  width: 600px; 
-  z-index: 1001;
-`;
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
 `;

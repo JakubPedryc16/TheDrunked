@@ -3,6 +3,7 @@ import getImageData from "../../utils/fileUtils";
 import api from "../../utils/api";
 import styled from "styled-components";
 import { AiFillCloseCircle } from "react-icons/ai";
+import { Button, Form, Image, Input, InputsContainer, ModalContent, ModalOverlay, TextArea } from "../../styled-components/Common";
 
 export interface SimpleCocktail {
     id: number,
@@ -96,31 +97,31 @@ export const EditCocktailForm:React.FC<Props & SimpleCocktail> = ({id, name, ima
                 
                 {errorMessage}
                 <Form onSubmit={handleFormSubmit}>
-                    <Input
-                        value={newName}
-                        onChange={(event) => setNewName(event.target.value)}
-                    />
-                    <Input
-                        type="file"
-                        onChange={handleFileChange}
-                    />
-                    <Image src={imageBlob} alt="Cocktail Image"/>
-                    <Input
-                        value={newDescription}
-                        onChange={(event) => setNewDescription(event.target.value)}
-                    />
-                    <button type="submit">Confirm</button>
+
+                    <InputsContainer>
+                        <Input
+                            value={newName}
+                            onChange={(event) => setNewName(event.target.value)}
+                        />
+                        <Input
+                            type="file"
+                            onChange={handleFileChange}
+                        />
+                        <Image src={imageBlob} alt="Cocktail Image"/>
+                        <TextArea
+                            value={newDescription}
+                            onChange={(event) => setNewDescription(event.target.value)}
+                        />
+                        <Button type="submit">Confirm</Button>
+                    </InputsContainer>
+
                 </Form>
             </ModalContent>
         </ModalOverlay>
     );
 }
 
-const Image = styled.img`
-    object-fit: cover;
-    width: 128px;
-    border-radius: 10px;
-`
+
 
 const ExitIcon = styled(AiFillCloseCircle)`
   position: absolute;
@@ -128,38 +129,6 @@ const ExitIcon = styled(AiFillCloseCircle)`
   right: 10px;  
 `;
 
-const ModalOverlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5); 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-`;
 
-const ModalContent = styled.div`
-  position: relative;
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  width: 600px; 
-  z-index: 1001;
-`;
 
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-`;
 
-const Input = styled.input`
-  margin-bottom: 10px;
-  padding: 8px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-`;

@@ -23,6 +23,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -63,11 +64,8 @@ public class CocktailService {
         UserEntity user = getCurrentUser();
         List<CocktailEntity> cocktailEntities;
 
-        if(user.getRole() == "ADMIN") {
-            cocktailEntities = cocktailRepository.findAll();
-        } else {
-            cocktailEntities = cocktailRepository.findAllByUser(user);
-        }
+        cocktailEntities = cocktailRepository.findAllByUser(user);
+        
         
         return cocktailEntities.stream().map(DetailedCocktailDto::new).toList();
     }
@@ -75,6 +73,12 @@ public class CocktailService {
     public void deleteCocktail(long cocktailId) throws IllegalArgumentException {
         CocktailEntity targetCocktail = cocktailRepository.findById(cocktailId)
                 .orElseThrow(() -> new IllegalArgumentException("Cocktail Not Found"));
+
+        
+        UserEntity user = getCurrentUser();
+        if(user.getId() != targetCocktail.getUser().getId() && user.getRole() != "ADMIN"){
+            throw new AccessDeniedException("You do not have permission to edit this cocktail.");
+        }
 
         cocktailRepository.delete(targetCocktail);
     }
@@ -103,6 +107,11 @@ public class CocktailService {
 
         CocktailEntity cocktail = cocktailRepository.findById(cocktailDto.getId())
             .orElseThrow(() -> new IllegalArgumentException("Cocktail Not Found"));
+    
+        UserEntity user = getCurrentUser();
+        if(user.getId() != cocktail.getUser().getId() && user.getRole() != "ADMIN"){
+            throw new AccessDeniedException("You do not have permission to edit this cocktail.");
+        }
 
             cocktail.setName(cocktailDto.getName());
             cocktail.setImage(cocktailDto.getImage());
@@ -118,9 +127,15 @@ public class CocktailService {
 
         List<CocktailIngredientEntity> ingredients = getCocktailsIngredients(cocktailDto, cocktail);
 
+        UserEntity user = getCurrentUser();
+        if(user.getId() != cocktail.getUser().getId() && user.getRole() != "ADMIN"){
+            throw new AccessDeniedException("You do not have permission to edit this cocktail.");
+        }
+
         cocktail.getIngredients().clear();
         cocktail.getIngredients().addAll(ingredients);
         cocktailRepository.save(cocktail);
+        
     }
 
     @Transactional
@@ -130,6 +145,10 @@ public class CocktailService {
 
         List<TagEntity> tags = getTags(cocktailDto);
 
+        UserEntity user = getCurrentUser();
+        if(user.getId() != cocktail.getUser().getId() && user.getRole() != "ADMIN"){
+            throw new AccessDeniedException("You do not have permission to edit this cocktail.");
+        }
 
         cocktail.getTags().clear();
         cocktail.getTags().addAll(tags);

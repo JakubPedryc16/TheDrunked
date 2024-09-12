@@ -7,9 +7,10 @@ import { Ingredient } from "../Entities/Ingredient";
 import { Tag } from "../Entities/Tag";
 import styled from "styled-components";
 
-import { Columns, Column } from "../../styled-components/Common";
+import { Columns, Column, FileInput, InputsContainer, Input, Image, TextArea, Button } from "../../styled-components/Common";
 import { SearchSection } from "../Common/SearchSection";
 import { ItemContainer } from "../Common/ItemsContainer";
+
 
 export const AddCocktailForm = () => {
 
@@ -243,94 +244,3 @@ export const AddCocktailForm = () => {
 }
 
 
-const Image = styled.img`
-    object-fit: cover;
-    width: 200px;
-    height: 150px;
-    border-radius: 10px;
-`
-const InputsContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: 80%;
-    margin: 10px;
-`
-const TextArea = styled.textarea`
-  width: 100%;
-  height: 150px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-  resize: vertical;
-  font-size: 16px;
-  line-height: 1.5;
-  overflow: auto;
-  background-color: #f9f9f9;
-  color: #333;
-
-  &:focus {
-    border-color: #007bff;
-    outline: none;
-  }
-`;
-const FileInput = styled.input.attrs({ type: 'file' })`
-    width: 100%;
-    padding: 10px;
-    background-color: rgba(0,0,0, 0.5);
-    border-radius: 4px;
-    background-color: rgba(0,0,0,0.2);
-    color: white;
-    box-sizing: border-box;
-    cursor: pointer;
-
-  &::-webkit-file-upload-button {
-    background: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 10px;
-    cursor: pointer;
-  }
-`;
-
-const Input = styled.input`
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-  font-size: 16px;
-  color: #333;
-  background-color: #f9f9f9;
-
-  &:focus {
-    border-color: #007bff;
-    outline: none;
-  }
-`;
-
-const Button = styled.button`
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  background-color: #007bff;
-  color: #fff;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-
-  &:hover {
-    background-color: #0056b3;
-  }
-
-  &:focus {
-    outline: none;
-  }
-
-  &:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-  }
-`;

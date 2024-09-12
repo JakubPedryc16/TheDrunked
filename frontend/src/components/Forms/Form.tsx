@@ -25,6 +25,7 @@ function Form(props: FormProps) {
 
         try {
             const res = await api.post<TokenData>(props.route, {username, password})
+
             if (props.method === "login" && res.data.token) {
                 localStorage.setItem("token", res.data.token)
                 navigate("/")
