@@ -8,11 +8,15 @@ import {Navbar} from "./components/Common/Navbar.tsx";
 import GlobalContainer from "./components/Common/GlobalContainer.tsx";
 import CocktailPage from "./pages/CocktailPage.tsx";
 import AddCocktailPage from "./pages/AddCocktailPage.tsx";
+import AddTagPage from "./pages/AddTagPage.tsx";
+import AddIngredientPage from "./pages/AddIngredientPage.tsx";
+
+
 
 
 function Logout() {
     localStorage.clear();
-    return <Navigate to="/login" />;
+    return <Navigate to="/auth/login" />;
 }
 
 function RegisterAndLogout() {
@@ -49,6 +53,22 @@ const AppContent = () => {
                         element={
                             <ProtectedRoute>
                                 <AddCocktailPage/>
+                            </ProtectedRoute>
+                    }/>
+
+                    <Route
+                        path="/add-ingredient"
+                        element={
+                            <ProtectedRoute>
+                                <AddIngredientPage/>
+                            </ProtectedRoute>
+                    }/>
+
+                    <Route
+                        path="/add-tag"
+                        element={
+                            <ProtectedRoute>
+                                <AddTagPage/>
                             </ProtectedRoute>
                     }/>
 

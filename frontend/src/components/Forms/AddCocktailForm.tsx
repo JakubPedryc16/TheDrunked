@@ -5,7 +5,6 @@ import { ITag } from "../Interfaces/ITag";
 import api from "../../utils/api";
 import { Ingredient } from "../Entities/Ingredient";
 import { Tag } from "../Entities/Tag";
-import styled from "styled-components";
 
 import { Columns, Column, FileInput, InputsContainer, Input, Image, TextArea, Button } from "../../styled-components/Common";
 import { SearchSection } from "../Common/SearchSection";

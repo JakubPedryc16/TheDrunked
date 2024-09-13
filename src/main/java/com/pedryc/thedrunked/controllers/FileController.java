@@ -61,7 +61,7 @@ public class FileController {
     } 
 
     @PostMapping("/user/upload")
-    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<String> uploadFile(@RequestParam(defaultValue = "cocktail") String type, @RequestParam("file") MultipartFile file) {
         if (file.isEmpty()) {
             return ResponseEntity.badRequest().body("Please select a file to upload.");
         }
@@ -71,7 +71,7 @@ public class FileController {
             String uniqueFileName = UUID.randomUUID().toString() + "_" + sanitizedFileName;
             byte[] resizedImageBytes = resizeImage(file, 800, 600);
     
-            Path uploadPath = Paths.get(uploadDir).resolve("cocktail").resolve(uniqueFileName);
+            Path uploadPath = Paths.get(uploadDir).resolve(type).resolve(uniqueFileName);
             Files.createDirectories(uploadPath.getParent());
 
             Files.write(uploadPath, resizedImageBytes);

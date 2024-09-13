@@ -3,8 +3,12 @@ package com.pedryc.thedrunked.controllers;
 import com.pedryc.thedrunked.Dtos.DetailedCocktailDto;
 import com.pedryc.thedrunked.Dtos.TagDto;
 import com.pedryc.thedrunked.services.TagService;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -24,5 +28,10 @@ public class TagController {
     @GetMapping("/user/tags/cocktail/{id}")
     public List<DetailedCocktailDto> getCocktail(@PathVariable int id) {
         return tagService.getCocktailsByTagId(id);
+    }
+
+    @PostMapping("/user/tag/add")
+    public ResponseEntity<?> addTag(@RequestBody TagDto tag) {
+        return tagService.addTag(tag);
     }
 }

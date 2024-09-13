@@ -1,32 +1,68 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const Navbar = () => {
 
+  const[role, setRole] = useState<string>("USER");
+  useEffect(() => {
 
-    return (
-        <NavContainer>
-            <Nav>
-                <NavTitle href="/">
-                    The Drunked
-                </NavTitle>
-                <NavList>
-                    <NavListItem>
-                        <NavLink href="/cocktails">Cocktails</NavLink>
-                    </NavListItem>
-                    <NavListItem>
-                        <NavLink href="/?????">Manage Cocktails</NavLink>
-                    </NavListItem>
-                    <NavListItem>
-                        <NavLink href="/???????">???????</NavLink>
-                    </NavListItem>
-                </NavList>
-            </Nav>
-        </NavContainer>
-    );
+    async function getUserData() : Promise<void> {
+        try {
+            const userRole = localStorage.getItem("role");
+            if(userRole) {
+              setRole(userRole)
+            } else {
+              const res = await api.get("user/me");
+              if(res.data?.role) {
+                localStorage.setItem("role", res.data.role);
+                setRole(res.data.role);
+              }
+            }
+        } catch(error) {
+            console.error(error)
+        } 
+      }
+      getUserData();
+      
+    }, []);
+
+  return (
+    <NavContainer>
+      <Nav>
+        <NavTitle href="/">
+          The Drunked
+        </NavTitle>
+
+        <NavList>
+          <NavListItem>
+            <NavLink href="/cocktails">Cocktails</NavLink>
+          </NavListItem>
+
+          <NavListItem>
+            <NavLink href="/?????">Manage Cocktails</NavLink>
+          </NavListItem>
+
+          <NavListItem>
+            <NavLink href="/???????">???????</NavLink>
+          </NavListItem>
+          {role === "ADMIN" && (
+            <>
+              <NavListItem>
+                <NavLink href="/add-ingredient">Ingredients</NavLink>
+              </NavListItem>
+              <NavListItem>
+                <NavLink href="/add-tag">Tags</NavLink>
+              </NavListItem>
+            </>
+          )}
+        </NavList>
+      </Nav>
+    </NavContainer>
+  );
 };
 
 
 import styled from 'styled-components';
+import api from "../../utils/api";
 
 const NavContainer = styled.div`
     background-color: rgb(37, 126, 116);
