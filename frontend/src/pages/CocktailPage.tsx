@@ -83,7 +83,7 @@ function CocktailPage() {
     useEffect(() => {
         void updateFilteredCocktails(searchText);
         void setSelectedCocktail(null);
-    }, [filterMode]);
+    }, [filterMode, userRole]);
 
     function updateFilteredCocktails(inputValue: string){
         if(userRole === "ADMIN"){
