@@ -76,7 +76,7 @@ public class CocktailService {
 
         
         UserEntity user = getCurrentUser();
-        if(user.getId() != targetCocktail.getUser().getId() && user.getRole() != "ADMIN"){
+        if(user.getId() != targetCocktail.getUser().getId() && !user.getRole().equals("ADMIN")){
             throw new AccessDeniedException("You do not have permission to edit this cocktail.");
         }
 
@@ -109,7 +109,7 @@ public class CocktailService {
             .orElseThrow(() -> new IllegalArgumentException("Cocktail Not Found"));
     
         UserEntity user = getCurrentUser();
-        if(user.getId() != cocktail.getUser().getId() && user.getRole() != "ADMIN"){
+        if(user.getId() != cocktail.getUser().getId() && !user.getRole().equals("ADMIN")){
             throw new AccessDeniedException("You do not have permission to edit this cocktail.");
         }
 
@@ -128,7 +128,7 @@ public class CocktailService {
         List<CocktailIngredientEntity> ingredients = getCocktailsIngredients(cocktailDto, cocktail);
 
         UserEntity user = getCurrentUser();
-        if(user.getId() != cocktail.getUser().getId() && user.getRole() != "ADMIN"){
+        if(user.getId() != cocktail.getUser().getId() && !user.getRole().equals("ADMIN")){
             throw new AccessDeniedException("You do not have permission to edit this cocktail.");
         }
 
@@ -146,7 +146,7 @@ public class CocktailService {
         List<TagEntity> tags = getTags(cocktailDto);
 
         UserEntity user = getCurrentUser();
-        if(user.getId() != cocktail.getUser().getId() && user.getRole() != "ADMIN"){
+        if(user.getId() != cocktail.getUser().getId() && !user.getRole().equals("ADMIN")){
             throw new AccessDeniedException("You do not have permission to edit this cocktail.");
         }
 

@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 
 export const Columns = styled.div`
     display: flex;
@@ -142,4 +142,24 @@ export const Form = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
+`;
+
+export const borderStyle = css`
+    border: 3px solid rgba(37, 48, 49, 0.6);;
+    border-radius: 3px;
+    box-sizing: border-box;
+`;
+
+export const borderInteractiveStyle = css`
+    border: 3px solid rgba(37, 48, 49, 0.3);;
+    border-radius: 5px;
+    box-sizing: border-box;
+    
+    &:hover {
+        border-color: rgba(37, 126, 116, 0.5);
+    }
+
+    &:active {
+        border-color: rgba(37, 126, 116, 0.75);
+    }
 `;

@@ -1,11 +1,13 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 import { useEffect, useState } from "react";
 import { IDetailedCocktail, EDIT_MODE } from "../Interfaces/IDetailedCocktail";
 import { Ingredient } from "./Ingredient";
 import { Tag } from "./Tag";
-import { FaEdit, FaHeart } from "react-icons/fa";
+
 import getImageData from "../../utils/fileUtils";
+import { EditIconInteractive, HeartIconInteractive, LikesDiv, LikesText } from "../../styled-components/icons";
+import { borderStyle } from "../../styled-components/Common";
 
 
 
@@ -21,7 +23,7 @@ export const DetailedCocktail:React.FC<IDetailedCocktail> = (({name, image, desc
             
             
             <NameDiv>
-                {editable && <EditIcon onClick={() => setEditMode(EDIT_MODE.DETAILS)}/>}
+                {editable && <EditIconInteractive onClick={() => setEditMode(EDIT_MODE.DETAILS)}/>}
                 {name}
             </NameDiv>
             <ImageContainerDiv>
@@ -32,17 +34,17 @@ export const DetailedCocktail:React.FC<IDetailedCocktail> = (({name, image, desc
                 {description}
             </DescriptionDiv>
             <TagDiv>
-                {editable && <EditIcon onClick={() => setEditMode(EDIT_MODE.TAGS)}/>}
+                {editable && <EditIconInteractive onClick={() => setEditMode(EDIT_MODE.TAGS)}/>}
                 {Array.isArray(tags) && tags.map(tag => (
                     <Tag key={tag.id} {...tag}/>
                 ))}
                 <LikesDiv onClick={handleLike}>
-                    <FaHeart color="red"/>
+                    <HeartIconInteractive/>
                     <LikesText>{likes}</LikesText>
                 </LikesDiv>
             </TagDiv>
             <IngredientDiv>
-                {editable && <EditIcon onClick={() => setEditMode(EDIT_MODE.INGREDIENTS)}/>}
+                {editable && <EditIconInteractive onClick={() => setEditMode(EDIT_MODE.INGREDIENTS)}/>}
                 {Array.isArray(ingredients) && ingredients.map(ingredient => (
                     <Ingredient key={ingredient.id} {...ingredient}/>
                 ))}
@@ -52,28 +54,10 @@ export const DetailedCocktail:React.FC<IDetailedCocktail> = (({name, image, desc
     );
 })
 
-const EditIcon = styled(FaEdit)`
-    position: absolute;
-    top: 5px;
-    right: 10px;
 
-`
-const LikesText = styled.div`
-    font-size: 14px;
-    color: white;
-    margin-left: 5px;
-`
 
-const LikesDiv = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-left: auto; 
-  padding-right: 20px;
-`;
 
 const CocktailDiv = styled.div`
-    
     display: flex;
     flex-direction: column;
     justify-items: start;
@@ -88,7 +72,9 @@ const CocktailDiv = styled.div`
     &::-webkit-scrollbar {
         display: none; 
     }
+    
 `
+
 
 const IngredientDiv = styled.div`
     display: grid;
@@ -102,7 +88,10 @@ const IngredientDiv = styled.div`
     width: 90%;
     background-color:  rgba(0,0,0, 0.2);
     padding: 20px 30px 20px 20px;
+
+    ${borderStyle}
 `
+
 
 
 const TagDiv = styled.div`
@@ -122,14 +111,19 @@ const TagDiv = styled.div`
     border-radius: 0px 0px 10px 10px;
     width: 90%;
 
+    ${borderStyle}
+
 `
 
 const ImageContainerDiv = styled.div`
     position: relative;
     width: 90%;
-    background-color:  rgba(0,0,0, 0.2);
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 10px;
 
-`
+    ${borderStyle}
+`;
+
 const DescriptionDiv = styled.div`
 
     font-size: 14px;
@@ -140,6 +134,8 @@ const DescriptionDiv = styled.div`
     text-align: left;
     white-space: pre-wrap; 
     padding: 15px;
+
+    ${borderStyle}
 `;
 
 const Image = styled.img`
@@ -186,6 +182,6 @@ const NameDiv = styled.div`
     padding: 20px 30px 20px 20px;
     font-size: 24px;
 
-
+    ${borderStyle}
 
 `

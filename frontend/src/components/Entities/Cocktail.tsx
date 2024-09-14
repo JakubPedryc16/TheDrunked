@@ -5,6 +5,8 @@ import { ITag } from "../Interfaces/ITag";
 import { FaHeart } from "react-icons/fa";
 import { Tag } from "./Tag";
 import getImageData from "../../utils/fileUtils";
+import { HeartIcon, HeartIconInteractive, LikesDiv, LikesText } from "../../styled-components/icons";
+import { borderInteractiveStyle } from "../../styled-components/Common";
 
 interface CocktailProps{
     id: number;
@@ -46,7 +48,7 @@ const Cocktail: React.FC<CocktailProps> = ({image, name, likes, tags, clickEvent
                     <RemainingTags>{`+${remainingTagsCount}`}</RemainingTags>
                 )}
                 <LikesDiv>
-                    <FaHeart color="red"/>
+                    <HeartIcon/>
                     <LikesText>{likes}</LikesText>
                 </LikesDiv>
             </TagDiv>
@@ -58,26 +60,14 @@ const Cocktail: React.FC<CocktailProps> = ({image, name, likes, tags, clickEvent
 
 export default Cocktail;
 
-const LikesDiv = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-left: auto; 
-  padding-right: 20px;
-`;
 
 const Image = styled.img`
     object-fit: cover;
-    width: 200px;
+    width: 194px;
     height: 150px;
 
 `
 
-const LikesText = styled.div`
-    font-size: 14px;
-    color: white;
-    margin-left: 5px;
-`
 
 const TagDiv = styled.div`
     display: flex;
@@ -91,9 +81,9 @@ const TagDiv = styled.div`
     padding-left: 20px;
     background-color: rgba(0, 0, 0, 0.2);
 
-    border-radius: 0px 0px 10px 10px;
+    border-radius: 0px 0px 0px 00px;
 
-    width: 200px;
+    width: 194px;
     height: 50px;
 
 `
@@ -103,8 +93,8 @@ const NameDiv = styled.div`
     align-items: center;
 
     height: 45px;
-    width: 200px;
-    border-radius: 10px 10px 0 0;
+    width: 194px;
+    /* border-radius: 10px 10px 0 0; */
     background-color: rgba(0, 0, 0, 0.2);
     text-align: start;
     padding-left: 20px;
@@ -128,6 +118,8 @@ const BackgroundDiv = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
+
+    ${borderInteractiveStyle}
 
 `;
 

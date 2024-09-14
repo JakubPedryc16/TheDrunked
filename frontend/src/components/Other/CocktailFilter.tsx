@@ -50,4 +50,14 @@ const Filter = styled.div`
     align-items: center;
     justify-content: center;
 
-`
+    transition: background-color 0.3s, transform 0.3s;
+
+    &:hover {
+        background-color: rgba(37, 126, 116, 0.8); 
+    }
+
+    &:active {
+        background-color: rgba(37, 126, 116, 0.6); 
+        transform: scale(0.95); 
+    }
+`;
