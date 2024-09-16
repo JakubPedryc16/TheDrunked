@@ -1,5 +1,33 @@
 import styled, { css } from "styled-components"
 
+
+export const borderStyle = css`
+    border: 2px solid rgba(37, 48, 49, 0.6);
+    border-radius: 3px;
+    box-sizing: border-box;
+`;
+
+export const borderColorStyle = css`
+    border: 2px solid rgba(37, 126, 116, 0.5);
+    border-radius: 3px;
+    box-sizing: border-box;
+`;
+
+
+export const borderInteractiveStyle = css`
+    border: 2px solid rgba(37, 48, 49, 0.3);
+    border-radius: 5px;
+    box-sizing: border-box;
+    
+    &:hover {
+        border-color: rgba(37, 126, 116, 0.5);
+    }
+
+    &:active {
+        border-color: rgba(37, 126, 116, 0.75);
+    }
+`;
+
 export const Columns = styled.div`
     display: flex;
     flex-direction: row;
@@ -94,24 +122,25 @@ export const Button = styled.button`
   padding: 10px 20px;
   border: none;
   border-radius: 4px;
-  background-color: #007bff;
+  background-color: rgb(37, 48, 49);
   color: #fff;
   font-size: 16px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  max-width: 100px;
-  &:hover {
-    background-color: #0056b3;
-  }
 
-  &:focus {
-    outline: none;
-  }
+  max-width: 200px;
+  
+  border: 2px solid rgba(37, 126, 116, 0.5);
+    border-radius: 5px;
+    box-sizing: border-box;
+    
+    &:hover {
+        border-color: rgba(37, 126, 116, 0.75);
+    }
 
-  &:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-  }
+    &:active {
+        border-color: rgba(37, 126, 116, 1);
+    }
+ 
 `;
 
 export const ModalOverlay = styled.div`
@@ -144,22 +173,3 @@ export const Form = styled.form`
   align-items: center;
 `;
 
-export const borderStyle = css`
-    border: 3px solid rgba(37, 48, 49, 0.6);;
-    border-radius: 3px;
-    box-sizing: border-box;
-`;
-
-export const borderInteractiveStyle = css`
-    border: 3px solid rgba(37, 48, 49, 0.3);;
-    border-radius: 5px;
-    box-sizing: border-box;
-    
-    &:hover {
-        border-color: rgba(37, 126, 116, 0.5);
-    }
-
-    &:active {
-        border-color: rgba(37, 126, 116, 0.75);
-    }
-`;

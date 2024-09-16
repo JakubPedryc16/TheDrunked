@@ -10,6 +10,7 @@ import CocktailPage from "./pages/CocktailPage.tsx";
 import AddCocktailPage from "./pages/AddCocktailPage.tsx";
 import AddTagPage from "./pages/AddTagPage.tsx";
 import AddIngredientPage from "./pages/AddIngredientPage.tsx";
+import SelectedCocktailPage from "./pages/SelectedCocktailPage.tsx";
 
 
 
@@ -72,6 +73,13 @@ const AppContent = () => {
                             </ProtectedRoute>
                     }/>
 
+                    <Route
+                        path="/cocktail"
+                        element={
+                            <ProtectedRoute>
+                                <SelectedCocktailPage/>
+                            </ProtectedRoute>
+                    }/>
                     <Route path="/auth/logout" element={<Logout />} />
                     <Route path="/auth/login" element={<Login/>}/>
                     <Route path="/auth/register" element={<RegisterAndLogout/>}/>

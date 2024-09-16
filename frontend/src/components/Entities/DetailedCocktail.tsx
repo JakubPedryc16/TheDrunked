@@ -6,12 +6,24 @@ import { Ingredient } from "./Ingredient";
 import { Tag } from "./Tag";
 
 import getImageData from "../../utils/fileUtils";
-import { EditIconInteractive, HeartIconInteractive, LikesDiv, LikesText } from "../../styled-components/icons";
-import { borderStyle } from "../../styled-components/Common";
+import { EditIconInteractive, HeartIconInteractive, LikesDiv, LikesText } from "../../styled-components/Icons";
+import { borderStyle, Button } from "../../styled-components/Common";
 
 
 
-export const DetailedCocktail:React.FC<IDetailedCocktail> = (({name, image, description, likes, ingredients, tags, editable, handleLike, setEditMode, handleDelete}) => {
+export const DetailedCocktail:React.FC<IDetailedCocktail> = (({
+    name,
+    image, 
+    description, 
+    likes, 
+    ingredients, 
+    tags, 
+    editable, 
+    handleLike, 
+    setEditMode, 
+    handleDelete,
+    isLiked
+    }) => {
     const [imageData, setImageData] = useState<string>("")
 
     useEffect(() => {
@@ -39,7 +51,7 @@ export const DetailedCocktail:React.FC<IDetailedCocktail> = (({name, image, desc
                     <Tag key={tag.id} {...tag}/>
                 ))}
                 <LikesDiv onClick={handleLike}>
-                    <HeartIconInteractive/>
+                    <HeartIconInteractive $isLiked={isLiked}/>
                     <LikesText>{likes}</LikesText>
                 </LikesDiv>
             </TagDiv>
@@ -117,6 +129,9 @@ const TagDiv = styled.div`
 
 const ImageContainerDiv = styled.div`
     position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
     width: 90%;
     background-color: rgba(0, 0, 0, 0.2);
     padding: 10px;
@@ -145,29 +160,6 @@ const Image = styled.img`
     border-radius: 10px;
 `
 
-const Button = styled.button`
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  background-color: rgba(37, 126, 116);
-  color: #fff;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-
-  &:hover {
-    background-color: #0056b3;
-  }
-
-  &:focus {
-    outline: none;
-  }
-
-  &:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-  }
-`;
 
 const NameDiv = styled.div`
     position: relative;

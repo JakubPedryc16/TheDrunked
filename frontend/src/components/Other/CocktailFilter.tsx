@@ -1,6 +1,7 @@
 import {useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { FILTER_MODE } from "../../pages/CocktailPage";
+import { borderInteractiveStyle } from "../../styled-components/Common";
 
 interface CocktailFilterProps {
     setFilter: (mode: FILTER_MODE) => void;
@@ -41,7 +42,7 @@ const FiltersContainer = styled.div`
 
 const Filter = styled.div`
     border-radius: 10px;
-    background-color: rgba(37, 126, 116);
+    background-color:rgba(37, 48, 49, 1);
     width: 12vw;
     height: 5vh;
     font-size: 16px;
@@ -50,14 +51,16 @@ const Filter = styled.div`
     align-items: center;
     justify-content: center;
 
-    transition: background-color 0.3s, transform 0.3s;
 
+    border: 2px solid rgba(37, 126, 116, 0.25);
+    border-radius: 5px;
+    box-sizing: border-box;
+    
     &:hover {
-        background-color: rgba(37, 126, 116, 0.8); 
+        border-color: rgba(37, 126, 116, 0.5);
     }
 
     &:active {
-        background-color: rgba(37, 126, 116, 0.6); 
-        transform: scale(0.95); 
+        border-color: rgba(37, 126, 116, 0.75);
     }
 `;

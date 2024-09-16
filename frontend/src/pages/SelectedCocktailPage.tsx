@@ -1,4 +1,3 @@
-
 import { lazy, Suspense, useEffect, useState } from "react";
 import MainContent from "../components/Common/MainContent";
 import { Column, Columns } from "../styled-components/Common";
@@ -8,29 +7,27 @@ import api from "../utils/api";
 
 import { DetailedCocktail } from "../components/Entities/DetailedCocktail";
 import styled from "styled-components";
-import { CocktailFilter } from "../components/Other/CocktailFilter";
+
 import { EditCocktailForm, SimpleCocktail } from "../components/Forms/EditCocktailForm";
 import { CocktailWithIngredients, EditCocktailIngredientsForm } from "../components/Forms/EditCocktailIngredientsForm";
 import { CocktailWithTags, EditCocktailTagsForm } from "../components/Forms/EditCocktailTagsForm";
 import { EDIT_MODE, IDetailedCocktail } from "../components/Interfaces/IDetailedCocktail";
-import { SearchSection } from "../components/Common/SearchSection";
+
 import { useLocation } from "react-router-dom";
 
 const Cocktail = lazy(() => import("../components/Entities/Cocktail"))
+
+
 
 export enum FILTER_MODE {
     ALL,
     USER
 }
 
-function SelectedCocktailPage() {
+function CocktailPage() {
 
-    const [cocktails, setCocktails] = useState<IDetailedCocktail[]>([]);
-    const [searchText, setSearchText] = useState<string>("");
-
-    const [selectedCocktail, setSelectedCocktail] = useState<IDetailedCocktail | null>(null);
+    const [selectedCocktail, setSelectedCocktail] = useState<IDetailedCocktail | null>();
     const [error, setError] = useState<string>("");
-    const [filterMode, setFilterMode] = useState<FILTER_MODE>(FILTER_MODE.ALL);
 
     const [userId, setUserId] = useState<number>(0);
     const [userRole, setUserRole] = useState<string>('');
@@ -42,28 +39,9 @@ function SelectedCocktailPage() {
     const [editable, setEditable] = useState<boolean>(false);
 
     const location = useLocation();
-    const {searchValue} = location.state ? location.state : {searchValue: ""};
-
-
-    const filteredCocktails = cocktails
-        .filter(cocktail => (
-            filterMode === FILTER_MODE.ALL ? true : cocktail.user.id === userId
-            )
-        )
-        .filter(cocktail => 
-            cocktail.name.toLowerCase().includes(searchText.toLowerCase()) ||
-            cocktail.tags.some(tag => 
-                tag.name.toLowerCase().includes(searchText.toLowerCase())
-            )
-        );
+    const { cocktailId } = location.state || {};
 
     useEffect(() => {
-        void updateFilteredCocktails(searchText);
-        void setSelectedCocktail(null);
-    }, [filterMode, userRole]);
-
-    useEffect(() => {
-
         async function getUserData() {
             try {
                 const res = await api.get("user/me");
@@ -83,32 +61,25 @@ function SelectedCocktailPage() {
             } 
         }
 
-        void getCocktails();
+        void getCocktail(cocktailId);
         void getUserData();
         void getLikedIds();
-        setSearchText(searchValue);
     },[])
 
+    useEffect(() => {
+        void updateEditable();
+    }, [userRole]);
 
-
-    function updateFilteredCocktails(inputValue: string){
+    function updateEditable(){
         if(userRole === "ADMIN"){
             setEditable(true);
-        } else {
-            const shouldBeEditable = filterMode !== FILTER_MODE.ALL;
+        } else if(selectedCocktail){
+            const shouldBeEditable = selectedCocktail.id === userId;
             setEditable(shouldBeEditable);
         }
-        setSearchText(inputValue);
     }
 
     function handleCocktailEdit(cocktail: SimpleCocktail) {
-        setCocktails(cocktails.map( prevCocktail => 
-            prevCocktail.id === cocktail.id 
-            ? {...prevCocktail, ...cocktail}
-            : prevCocktail
-            )
-        )
-
         setSelectedCocktail(prevCocktail => 
             prevCocktail 
             ? {...prevCocktail, ...cocktail}
@@ -117,12 +88,6 @@ function SelectedCocktailPage() {
     }
 
     function handleCocktailIngredientsEdit(cocktail: CocktailWithIngredients) {
-       setCocktails(cocktails.map( prevCocktail =>
-            prevCocktail.id === cocktail.id 
-            ? {...prevCocktail, ingredients: [...cocktail.ingredients]}
-            : prevCocktail
-            )
-        )
 
         setSelectedCocktail(prevCocktail =>
             prevCocktail
@@ -132,12 +97,6 @@ function SelectedCocktailPage() {
     } 
 
     function handleCocktailTagsEdit(cocktail: CocktailWithTags) {
-        setCocktails(cocktails.map( prevCocktail =>
-            prevCocktail.id === cocktail.id 
-            ? {...prevCocktail, tags: [...cocktail.tags]}
-            : prevCocktail
-            )
-        )
 
         setSelectedCocktail(prevCocktail =>
             prevCocktail
@@ -159,9 +118,7 @@ function SelectedCocktailPage() {
             setError("Error deleting cocktail");
             console.error(error)
         } 
-        setCocktails(cocktails.filter( prevCocktail =>
-            prevCocktail.id !== cocktailId)
-        )
+
         setSelectedCocktail(null);
 
     }
@@ -188,14 +145,6 @@ function SelectedCocktailPage() {
                     ? {...prevCocktail, likes: shouldLike ? prevCocktail.likes + 1 : prevCocktail.likes - 1} 
                     : null
             );
- 
-            setCocktails(prevCocktails => 
-                prevCocktails.map(cocktail => 
-                    cocktail.id === cocktailId
-                    ? { ...cocktail, likes: shouldLike? cocktail.likes + 1 : cocktail.likes - 1}
-                    : cocktail
-                )
-            );
 
         } catch (error) {
             setError("Unable to handle like");
@@ -203,18 +152,19 @@ function SelectedCocktailPage() {
             console.log(likedIds, cocktailId);
         }
     }
-    async function getCocktails() {
+    async function getCocktail(cocktailId: number) {
         try {
-            const res = await api.get("user/cocktails");
+            const res = await api.get("user/cocktail", {
+                params: {id: cocktailId}
+            });
             if (res.data) {
                 setError('');
-                setCocktails(res.data);
-                //setFilteredCocktails(res.data);
+                setSelectedCocktail(res.data);
             } else {
-                console.log("Cocktails not found")
+                console.log("Cocktail not found")
             } 
         } catch(error) {
-            setError("Error fetching cocktails");
+            setError("Error fetching cocktail");
             console.error(error);
         }
     }
@@ -232,29 +182,7 @@ function SelectedCocktailPage() {
    
     return (
         <MainContent>
-            <CocktailFilter setFilter={setFilterMode}/>
-            <Columns>
             {error}
-                <Column>
-                    <SearchSection<IDetailedCocktail>
-                            placeholder="Search Cocktails"
-                            onSearch={updateFilteredCocktails}
-                            items={filteredCocktails}
-                            value={searchValue}
-                            renderItem={filteredCocktail => (
-                                <Suspense fallback={<div>Loading...</div>}>
-                                    <Cocktail 
-                                    {...filteredCocktail}
-                                    key={filteredCocktail.id} 
-                                    clickEvent={() => setSelectedCocktail(filteredCocktail)} 
-                                    isLiked = {likedIds.some(id => id === filteredCocktail.id)}
-                                    />
-                                </Suspense>
-                            )}
-                        />
-                </Column>
-
-
                 <DetailColumn>
                     {selectedCocktail && (
                         <DetailedContainer>
@@ -269,7 +197,6 @@ function SelectedCocktailPage() {
                         </DetailedContainer>
                     )}
                 </DetailColumn>
-            </Columns>
 
             { selectedCocktail && (
             <>
@@ -286,7 +213,7 @@ function SelectedCocktailPage() {
     );
 }
 
-export default SelectedCocktailPage
+export default CocktailPage
 
 
 const DetailedContainer = styled.div`
@@ -309,4 +236,3 @@ const DetailColumn = styled.div`
     padding: 20px;
     border-radius: 20px;
 `
-

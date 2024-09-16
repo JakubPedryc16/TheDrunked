@@ -15,16 +15,17 @@ interface SearchSectionProps<T> {
     children?: React.ReactNode;
     width?: string;  
     height?: string;
+    value?: string;
 }
 
 
 
-export const SearchSection = <T,>({ placeholder, onSearch, items, renderItem, width = "35vw", height = "60vh"  }: SearchSectionProps<T>) => {
+export const SearchSection = <T,>({ placeholder, onSearch, items, renderItem, width = "35vw", height = "60vh", value  }: SearchSectionProps<T>) => {
     const containerRef = useRef<HTMLDivElement | null>(null);
   
     return (
       <Section>
-        <SearchBar placeholder={placeholder} onSearch={onSearch} />
+        <SearchBar initialValue={value} placeholder={placeholder} onSearch={onSearch} />
         <ItemContainerDiv ref={containerRef} width={width} height={height}>
           {Array.isArray(items) &&
             items.map((item, index) => (
@@ -72,6 +73,7 @@ const ItemContainerDiv = styled.div<ItemContainerProps>`
 const Section = styled.div`
     display: flex;
     flex-direction: column;
+    align-items: center;
 
     margin: 10px;
 `;

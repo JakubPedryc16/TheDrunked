@@ -103,12 +103,13 @@ export const EditCocktailIngredientsForm:React.FC<Props & CocktailWithIngredient
                             children = {Array.isArray(newIngredients) && newIngredients.map( ingredient => (
                                 <Ingredient key={ingredient.id} clickEffect={() => deleteIngredient(ingredient)}  {...ingredient}/>
                             ))}
+                            width="500px"
                         />
 
-                    <Input
+                    <InputValue
                         value = {amount}
                         onChange={(event) => setAmount(event.target.value)}
-                        placeholder="ecnter ingredient amount" 
+                        placeholder="Enter ingredient amount" 
                     />
                     <SearchSection<IIngredient>
                         placeholder="Search Ingredients"
@@ -134,3 +135,18 @@ const ExitIcon = styled(AiFillCloseCircle)`
   right: 10px;  
 `;
 
+const InputValue = styled.input`
+  width: 50%;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 16px;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.2);
+  margin: 5px;
+  &:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+`;

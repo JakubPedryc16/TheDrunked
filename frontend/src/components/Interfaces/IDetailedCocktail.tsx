@@ -17,6 +17,7 @@ export interface IDetailedCocktail{
     handleLike: () => void;
     setEditMode: (mode: EDIT_MODE) => void;
     handleDelete: () => void;
+    isLiked: boolean;
 }
 
 export enum EDIT_MODE {

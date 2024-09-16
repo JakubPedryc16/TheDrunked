@@ -1,20 +1,23 @@
-import { Navigate } from "react-router-dom";
-import {Button} from "../components/Other/Button.tsx";
+import { Navigate, useNavigate } from "react-router-dom";
+
 import MainContent from "../components/Common/MainContent.tsx";
 import { useEffect, useState } from "react";
 import api from "../utils/api.ts";
 
-import { Column, Columns } from "../styled-components/Common.tsx";
+import {Column, Columns } from "../styled-components/Common.tsx";
 import { ICocktail } from "../components/Interfaces/ICocktail.tsx";
 import styled from "styled-components";
 import Cocktail from "../components/Entities/Cocktail.tsx";
+import { ImageButton } from "../components/Other/ImageButton.tsx";
 
 
 function Home() {
-    
+    const navigate = useNavigate();
 
+    const [likedIds, setLikedIds] = useState<number[]>([]);
     const [cocktails, setCocktails] = useState<ICocktail[]>([]);
     const [error, setError] = useState<string | null> (null)
+    const sortedCocktails = [...cocktails].sort((a, b) => b.likes - a.likes);
 
     useEffect (() => {
 
@@ -33,23 +36,40 @@ function Home() {
                 console.error(err)
             }
         }
-
+        async function getLikedIds() {
+            try {
+                const res = await api.get("user/liked-ids");
+                    setError('');
+                    setLikedIds(res.data);
+            } catch(error) {
+                setError("Error fetching liked ids");
+                console.error(error);
+            }
+        }
+        void getLikedIds();
         void getCocktails();
-    });
+    }, []);
+
+
 
     return (
         <MainContent>
             <Columns>
                 <Column>
-                    <Button onClick={() => (<Navigate to="chuj"/>)} label={"meow"}/>
-                    <Button onClick={() => (<Navigate to="chuj"/>)} label={"meow"}/>
+                    <ImageButton onClick={() => (navigate('/cocktails' , {state: {searchValue: "sweet"}}))} label="Sweet Cocktails" imageSrc="pic1.jpg"/>
+                    <ImageButton onClick={() => (navigate('/cocktails' , {state: {searchValue: "sour"}}))} label="Sour Cocktails" imageSrc="pic2.jpg"/>
 
                 </Column>
                 <Column>
                     {error}
                     <CocktailsContainer>
-                        {Array.isArray(cocktails) && cocktails.map( cocktail => (
-                            <Cocktail key={cocktail.id} clickEvent={() => (console.log("CHUJ"))} {...cocktail} />
+                        { sortedCocktails.map( cocktail => (
+                            <Cocktail 
+                            key={cocktail.id} 
+                            clickEvent={() => navigate(`/cocktail`, { state: { cocktailId: cocktail.id } })} 
+                            isLiked = {likedIds.some(id => id === cocktail.id)} 
+                            {...cocktail}
+                            />
                         ))}
                     </CocktailsContainer>
                 </Column>
@@ -70,5 +90,9 @@ const CocktailsContainer = styled.div`
     overflow: auto;
     height: 60vh;
     width: 35vw;
+
+    &::-webkit-scrollbar {
+        display: none; 
+    }
 `
 

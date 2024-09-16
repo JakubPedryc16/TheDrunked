@@ -33,16 +33,18 @@ export const Navbar = () => {
         </NavTitle>
 
         <NavList>
+
+          
+        <NavListItem>
+            <NavLink href="/">Home</NavLink>
+          </NavListItem>
+
           <NavListItem>
             <NavLink href="/cocktails">Cocktails</NavLink>
           </NavListItem>
 
           <NavListItem>
-            <NavLink href="/?????">Manage Cocktails</NavLink>
-          </NavListItem>
-
-          <NavListItem>
-            <NavLink href="/???????">???????</NavLink>
+            <NavLink href="/add-cocktail">Add Cocktail</NavLink>
           </NavListItem>
           {role === "ADMIN" && (
             <>

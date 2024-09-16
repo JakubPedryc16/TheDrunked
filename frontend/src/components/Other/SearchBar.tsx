@@ -1,26 +1,25 @@
-import styled from "styled-components";
+import React, { useState, useEffect } from "react";
+import { Input } from "../../styled-components/Common";
 
-interface SearchBarProps{
-    placeholder?: string;
-    onSearch: (query: string) => void;
+interface SearchBarProps {
+  placeholder?: string;
+  onSearch: (query: string) => void;
+  initialValue?: string; 
 }
 
-export const SearchBar: React.FC<SearchBarProps> = ({placeholder = "Search...", onSearch}) => {
+export const SearchBar: React.FC<SearchBarProps> = ({ placeholder = "Search...", onSearch, initialValue = "" }) => {
+  const [searchValue, setSearchValue] = useState(initialValue);
 
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        onSearch(event.target.value);
-    };
+  useEffect(() => {
+    setSearchValue(initialValue); 
+  }, [initialValue]);
 
-    return (
-        <StyledInput placeholder={placeholder} onChange={handleInputChange}/>
-    );
-}
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(event.target.value);
+    onSearch(event.target.value); 
+  };
 
-const StyledInput = styled.input`
-  padding: 8px;
-  font-size: 16px;
-  width: 100%;
-
-  border-radius: 4px;
-  border: 1px solid #ccc;
-`;
+  return (
+    <Input value={searchValue} placeholder={placeholder} onChange={handleInputChange} />
+  );
+};

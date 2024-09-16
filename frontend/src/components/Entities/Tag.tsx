@@ -1,8 +1,6 @@
 import styled from "styled-components";
 import { ITag } from "../Interfaces/ITag";
 
-
-
 export const Tag:React.FC<ITag> = (({name, clickEffect}) => {
     return(
         <TagContainer onClick={() => clickEffect && clickEffect()}>
@@ -18,4 +16,6 @@ const TagContainer = styled.div`
     background-color: rgba(255, 255, 255, 0.1);
     padding: 8px 5px 8px 5px;
     font-size: 12px;
+
+
 `

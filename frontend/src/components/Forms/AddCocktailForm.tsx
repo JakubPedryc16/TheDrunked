@@ -234,7 +234,7 @@ export const AddCocktailForm = () => {
                         renderItem={tag => (
                             <Tag key={tag.id} clickEffect={() => addTag(tag)}  {...tag}/>
                         )}
-                        height="30vh"
+                        height="12vh"
                     />
                 </Column>
             </Columns>

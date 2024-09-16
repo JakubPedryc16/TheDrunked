@@ -13,39 +13,41 @@ export const EditIconInteractive = styled(FaEdit)`
     top: 5px;
     right: 10px;
     font-size: 1.5rem; 
-    color: rgba(85, 231, 217, 0.65);
-
+    color: rgba(85, 231, 217, 0.8);
+    
     &:hover {
-        color: rgba(85, 231, 217, 0.75);
-
+        color: rgba(85, 231, 217, 1);
     }
 
     &:active {
-        transform: scale(0.95);
-        color: rgba(85, 231, 217, 0.85);
+        transform: scale(0.9);
     }
 `
-
-export const HeartIconInteractive = styled(FaHeart)`
-
-    color: #44e9d8;
+interface HeartIconProps{
+    $isLiked: boolean;
+}
+export const HeartIconInteractive = styled(FaHeart)<HeartIconProps>`
+    color: ${(props) => props.$isLiked ? "rgba(85, 231, 217, 0.8)" : "rgba(255, 255, 255, 0.5)"};
     transition: color 0.3s, transform 0.2s;
     font-size: 1.5rem; 
 
     &:hover {
-        color: #20ffe9;
+        color: rgba(85, 231, 217, 1);
         transform: scale(1.1);
     }
 
     &:active {
-        color: #55e7d9;
         transform: scale(0.9);
     }
 `;
-export const HeartIcon = styled(FaHeart)`
-    color: #44e9d8;
-    font-size: 1.3rem; 
+
+
+export const HeartIcon = styled(FaHeart)<HeartIconProps>`
+  color: ${(props) => props.$isLiked ? "rgba(85, 231, 217, 0.8)" : "rgba(255, 255, 255, 0.5)"};
+  font-size: 1.3rem; 
 `;
+
+
 
 export const LikesDiv = styled.div`
   display: flex;
@@ -53,4 +55,6 @@ export const LikesDiv = styled.div`
   align-items: center;
   margin-left: auto; 
   padding-right: 20px;
+
+
 `;

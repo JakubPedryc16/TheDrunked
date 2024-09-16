@@ -99,6 +99,7 @@ export const EditCocktailTagsForm:React.FC<Props & CocktailWithTags> = ({id, tag
                             children = {Array.isArray(newTags) && newTags.map( tag => (
                                 <Tag key={tag.id} clickEffect={() => deleteTag(tag)}  {...tag}/>
                             ))}
+                            width="500px"
                         />
 
                     <SearchSection<ITag>

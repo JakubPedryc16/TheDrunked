@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 
 import styled from "styled-components";
 import { ITag } from "../Interfaces/ITag";
-import { FaHeart } from "react-icons/fa";
 import { Tag } from "./Tag";
 import getImageData from "../../utils/fileUtils";
-import { HeartIcon, HeartIconInteractive, LikesDiv, LikesText } from "../../styled-components/icons";
+
 import { borderInteractiveStyle } from "../../styled-components/Common";
+import { HeartIcon, LikesDiv, LikesText } from "../../styled-components/Icons";
+
 
 interface CocktailProps{
     id: number;
@@ -15,11 +16,12 @@ interface CocktailProps{
     name: string;
     likes: number;
     tags: ITag[];
-
     clickEvent: () => void;
+
+   isLiked: boolean;
 }
 
-const Cocktail: React.FC<CocktailProps> = ({image, name, likes, tags, clickEvent}) => {
+const Cocktail: React.FC<CocktailProps> = ({image, name, likes, tags, clickEvent, isLiked}) => {
 
     const [imageData, setImageData] = useState<string>("")
 
@@ -33,6 +35,7 @@ const Cocktail: React.FC<CocktailProps> = ({image, name, likes, tags, clickEvent
     const displayedTags = tags.slice(0, 2); 
     const remainingTagsCount = tags.length - 2; 
 
+    
     return (
         <BackgroundDiv onClick={clickEvent}>
             <NameDiv>
@@ -48,7 +51,7 @@ const Cocktail: React.FC<CocktailProps> = ({image, name, likes, tags, clickEvent
                     <RemainingTags>{`+${remainingTagsCount}`}</RemainingTags>
                 )}
                 <LikesDiv>
-                    <HeartIcon/>
+                    <HeartIcon $isLiked={isLiked} />
                     <LikesText>{likes}</LikesText>
                 </LikesDiv>
             </TagDiv>
@@ -67,8 +70,6 @@ const Image = styled.img`
     height: 150px;
 
 `
-
-
 const TagDiv = styled.div`
     display: flex;
     flex-direction: row;
@@ -103,10 +104,11 @@ const NameDiv = styled.div`
 `
 
 const RemainingTags = styled.div`
-    background-color: rgb(0, 122, 86); 
+    background-color: rgba(255, 255, 255, 0.1);
     padding: 8px;
     font-size: 12px;
     border-radius: 5px;
+
 `;
 
 const BackgroundDiv = styled.div`
