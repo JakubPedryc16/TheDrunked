@@ -14,7 +14,10 @@ import { CocktailWithIngredients, EditCocktailIngredientsForm } from "../compone
 import { CocktailWithTags, EditCocktailTagsForm } from "../components/Forms/EditCocktailTagsForm";
 import { EDIT_MODE, IDetailedCocktail } from "../components/Interfaces/IDetailedCocktail";
 import { SearchSection } from "../components/Common/SearchSection";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { ItemContainer } from "../components/Common/ItemsContainer";
+import { Ingredient } from "../components/Entities/Ingredient";
+import { IIngredient } from "../components/Interfaces/IIngredients";
 
 const Cocktail = lazy(() => import("../components/Entities/Cocktail"))
 
@@ -23,7 +26,7 @@ export enum FILTER_MODE {
     USER
 }
 
-function CocktailPage() {
+function MyBarPage() {
 
     const [cocktails, setCocktails] = useState<IDetailedCocktail[]>([]);
     const [searchText, setSearchText] = useState<string>("");
@@ -44,18 +47,31 @@ function CocktailPage() {
     const location = useLocation();
     const {searchValue} = location.state ? location.state : {searchValue: ""};
 
+    const [ingredients, setIngredients] = useState<IIngredient[]>([]);
+    const [filteredIngredients, setFilteredIngredients] = useState<IIngredient[]>([]);
+    const [selectedIngredients, setSelectedIngredients] = useState<IIngredient[]>([]);
+
+    const navigate = useNavigate();
+
 
     const filteredCocktails = cocktails
-        .filter(cocktail => (
-            filterMode === FILTER_MODE.ALL ? true : cocktail.user.id === userId
-            )
+    .filter(cocktail => (
+        filterMode === FILTER_MODE.ALL ? true : cocktail.user.id === userId
+    ))
+
+    .filter(cocktail => 
+        cocktail.name.toLowerCase().includes(searchText.toLowerCase()) ||
+        cocktail.tags.some(tag => 
+            tag.name.toLowerCase().includes(searchText.toLowerCase())
         )
-        .filter(cocktail => 
-            cocktail.name.toLowerCase().includes(searchText.toLowerCase()) ||
-            cocktail.tags.some(tag => 
-                tag.name.toLowerCase().includes(searchText.toLowerCase())
-            )
+    )
+    .filter(cocktail => {
+        const selectedIngredientIds = new Set(selectedIngredients.map(ingredient => ingredient.id));
+
+        return cocktail.ingredients.every(cocktailIngredient =>
+            selectedIngredientIds.has(cocktailIngredient.id)
         );
+    });
 
     useEffect(() => {
         void updateFilteredCocktails(searchText);
@@ -83,13 +99,82 @@ function CocktailPage() {
             } 
         }
 
+        async function fetchIngredients() {
+            try {
+                const ingredientsRes = await api.get("user/ingredients");
+                setIngredients(ingredientsRes.data);
+                setFilteredIngredients(ingredientsRes.data);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        async function fetchUserIngredients() {
+            try {
+                const ingredientsRes = await api.get("user/user-ingredients");
+                setSelectedIngredients(ingredientsRes.data);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        void fetchUserIngredients();
+        void fetchIngredients();
         void getCocktails();
         void getUserData();
         void getLikedIds();
         setSearchText(searchValue);
     },[])
 
+    function filterIngredients(value: string) {
+        const filtered = ingredients.filter(ingredient => (
+            ingredient.name.toLowerCase().includes(value.toLowerCase())
+        ));
+        setFilteredIngredients(filtered);
+    }
 
+    async function addIngredient(ingredient: IIngredient) {
+        
+        const isAlreadyInAdded = selectedIngredients.some(currentIngredient => currentIngredient.id === ingredient.id);
+        if(isAlreadyInAdded) { 
+            setError("Ingredient selected already");
+            return;
+        }
+        let newIngredient = {...ingredient};
+        setSelectedIngredients(selectedIngredients => [...selectedIngredients, newIngredient])
+        setError("");
+        const ingredientData = {
+            id: ingredient.id,
+            name: ingredient.name,
+            image: ingredient.image
+        }
+        try {
+            await api.post("user/add-user-ingredient", 
+                ingredientData
+            );
+        } catch (error) {
+            console.log(error);
+            setError("Unable to add user ingredient");
+        }
+    }
+
+    async function deleteIngredient(ingredient: IIngredient) {
+        const ingredientsWithoutDeleted = selectedIngredients.filter(currentIngredient => currentIngredient.id !== ingredient.id)
+        setSelectedIngredients(ingredientsWithoutDeleted);
+
+        const ingredientData = {
+            id: ingredient.id,
+            name: ingredient.name,
+            image: ingredient.image
+        }
+        try {
+            await api.post("user/delete-user-ingredient", ingredientData);
+        } catch (error) {
+            console.log(error);
+            setError("Unable to remove user ingredient");
+        }
+
+    }
 
     function updateFilteredCocktails(inputValue: string){
         if(userRole === "ADMIN"){
@@ -236,6 +321,24 @@ function CocktailPage() {
             <Columns>
             {error}
                 <Column>
+
+                    <SearchSection<IIngredient>
+                            placeholder="Search Ingredients"
+                            onSearch={filterIngredients}
+                            items={filteredIngredients}
+                            renderItem={ingredient => (
+                                <Ingredient key={ingredient.id} clickEffect={() => addIngredient(ingredient)}  {...ingredient}/>
+                            )}
+                            height="30vh"       
+                        />
+                    <ItemContainer 
+                            title= "Selected Ingredients"
+                            children = {Array.isArray(selectedIngredients) && selectedIngredients.map( ingredient => (
+                                <Ingredient key={ingredient.id} clickEffect={() => deleteIngredient(ingredient)}  {...ingredient}/>
+                            ))}
+                        />
+                </Column>
+                <Column>
                     <SearchSection<IDetailedCocktail>
                             placeholder="Search Cocktails"
                             onSearch={updateFilteredCocktails}
@@ -246,7 +349,7 @@ function CocktailPage() {
                                     <Cocktail 
                                     {...filteredCocktail}
                                     key={filteredCocktail.id} 
-                                    clickEvent={() => setSelectedCocktail(filteredCocktail)} 
+                                    clickEvent={() => navigate(`/cocktail`, { state: { cocktailId: filteredCocktail.id } })} 
                                     isLiked = {likedIds.some(id => id === filteredCocktail.id)}
                                     />
                                 </Suspense>
@@ -255,38 +358,14 @@ function CocktailPage() {
                 </Column>
 
 
-                <DetailColumn>
-                    {selectedCocktail && (
-                        <DetailedContainer>
-                            <DetailedCocktail 
-                                {...selectedCocktail}
-                                handleLike={() => handleLike(selectedCocktail.id)}
-                                setEditMode={setEditMode} 
-                                editable={editable}
-                                handleDelete={() => handleCocktailDelete(selectedCocktail.id)}
-                                isLiked = {likedIds.some(id => id === selectedCocktail.id)}
-                            />
-                        </DetailedContainer>
-                    )}
-                </DetailColumn>
-            </Columns>
 
-            { selectedCocktail && (
-            <>
-                {editMode === EDIT_MODE.DETAILS && 
-                    <EditCocktailForm {...selectedCocktail} setEditMode={() => setEditMode(EDIT_MODE.NONE)} handleCocktailEdit={handleCocktailEdit}/>}
-                {editMode === EDIT_MODE.TAGS && 
-                    <EditCocktailTagsForm {...selectedCocktail} setEditMode={() => setEditMode(EDIT_MODE.NONE)} handleCocktailEdit={handleCocktailTagsEdit}/>}
-                {editMode === EDIT_MODE.INGREDIENTS && 
-                    <EditCocktailIngredientsForm {...selectedCocktail} setEditMode={() => setEditMode(EDIT_MODE.NONE)} handleCocktailEdit={handleCocktailIngredientsEdit}/>}
-            </>
-            )}
+            </Columns>
 
         </MainContent>
     );
 }
 
-export default CocktailPage
+export default MyBarPage
 
 
 const DetailedContainer = styled.div`

@@ -24,7 +24,7 @@ export enum FILTER_MODE {
     USER
 }
 
-function CocktailPage() {
+function SelectedCocktailPage() {
 
     const [selectedCocktail, setSelectedCocktail] = useState<IDetailedCocktail | null>();
     const [error, setError] = useState<string>("");
@@ -213,7 +213,7 @@ function CocktailPage() {
     );
 }
 
-export default CocktailPage
+export default SelectedCocktailPage
 
 
 const DetailedContainer = styled.div`

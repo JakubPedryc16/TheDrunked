@@ -29,4 +29,12 @@ public class UserEntity {
     @OneToMany(mappedBy = "user", orphanRemoval = true)
     private List<CocktailEntity> cocktails = new ArrayList<>();
 
+    @ManyToMany()
+    @JoinTable(
+            name = "user_ingredients",
+            joinColumns = { @JoinColumn(name = "user_id")},
+            inverseJoinColumns = { @JoinColumn(name = "ingredient_id")}
+    )
+    List<IngredientEntity> ingredients = new ArrayList<>();
+
 }

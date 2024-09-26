@@ -27,4 +27,7 @@ public class IngredientEntity {
 
     @OneToMany(mappedBy = "ingredient")
     private List<CocktailIngredientEntity> cocktails = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "ingredients")
+    private List<UserEntity> users = new ArrayList<>();
 }

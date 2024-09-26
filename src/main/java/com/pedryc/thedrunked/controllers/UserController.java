@@ -1,5 +1,6 @@
 package com.pedryc.thedrunked.controllers;
 
+import com.pedryc.thedrunked.Dtos.IngredientDto;
 import com.pedryc.thedrunked.Dtos.UserDto;
 import com.pedryc.thedrunked.services.UserService;
 
@@ -9,6 +10,8 @@ import org.springframework.http.HttpStatus;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -54,5 +57,31 @@ public class UserController {
     @GetMapping("/user/liked-ids")
     public List<Long> getLikedIds() {
         return userService.getLikedIds();
+    }
+
+    @GetMapping("user/user-ingredients")
+    public List<IngredientDto> getUserIngredients() {
+        return userService.getUserIngredients();
+    }
+
+    @PostMapping("/user/add-user-ingredient") 
+    public ResponseEntity<?> addUserIngredient(@RequestBody IngredientDto ingredientDto) {
+        try {
+            userService.addUserIngredient(ingredientDto);
+            return ResponseEntity.ok().body("User Ingredient Sucesfully added");
+        } catch(Exception exception) {
+            return ResponseEntity.badRequest().body(exception.getMessage());
+        }
+    }
+
+    
+    @PostMapping("/user/delete-user-ingredient") 
+    public ResponseEntity<?> deleteUserIngredient(@RequestBody IngredientDto ingredientDto) {
+        try {
+            userService.deleteUserIngredient(ingredientDto);
+            return ResponseEntity.ok().body("User Ingredient Sucesfully removed");
+        } catch(Exception exception) {
+            return ResponseEntity.badRequest().body(exception.getMessage());
+        }
     }
 }

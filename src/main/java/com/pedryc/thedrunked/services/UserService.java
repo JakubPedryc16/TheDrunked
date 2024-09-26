@@ -1,8 +1,11 @@
 package com.pedryc.thedrunked.services;
 
+import com.pedryc.thedrunked.Dtos.IngredientDto;
 import com.pedryc.thedrunked.Dtos.UserDto;
+import com.pedryc.thedrunked.entities.IngredientEntity;
 import com.pedryc.thedrunked.entities.LikeEntity;
 import com.pedryc.thedrunked.entities.UserEntity;
+import com.pedryc.thedrunked.repositories.IngredientRepository;
 import com.pedryc.thedrunked.repositories.LikeRepository;
 import com.pedryc.thedrunked.repositories.UserRepository;
 
@@ -19,9 +22,11 @@ import java.util.List;
 public class UserService {
     UserRepository userRepository;
     LikeRepository likeRepository;
-    public UserService(UserRepository userRepository, LikeRepository likeRepository) {
+    IngredientRepository ingredientRepository;
+    public UserService(UserRepository userRepository, LikeRepository likeRepository, IngredientRepository ingredientRepository) {
         this.userRepository = userRepository;
         this.likeRepository = likeRepository;
+        this.ingredientRepository = ingredientRepository;
     }
 
     public List<UserDto> getAllUsers() {
@@ -41,6 +46,32 @@ public class UserService {
         return likedIds;
     }
 
+    public List<IngredientDto> getUserIngredients() {
+        UserEntity user = getUserEntity();
+        List<IngredientEntity> ingredientEntities = ingredientRepository.findAllByUsers(user);
+        List<IngredientDto> userIngredients = ingredientEntities.stream().map(ingredientEntity -> new IngredientDto(ingredientEntity)).toList();
+        return userIngredients;
+    }
+
+    public void addUserIngredient(IngredientDto ingredientDto) {
+        UserEntity user = getUserEntity();
+        System.out.println(ingredientDto.getId());
+        IngredientEntity ingredientEntity = ingredientRepository.findById(ingredientDto.getId())
+            .orElseThrow(() -> new IllegalArgumentException());
+
+        user.getIngredients().add(ingredientEntity);
+        userRepository.save(user);
+    }
+
+    public void deleteUserIngredient(IngredientDto ingredientDto) {
+        UserEntity user = getUserEntity();
+        IngredientEntity ingredientEntity = ingredientRepository.findById(ingredientDto.getId())
+            .orElseThrow(() -> new IllegalArgumentException());
+
+        user.getIngredients().remove(ingredientEntity);
+        userRepository.save(user);
+    }
+
     private UserEntity getUserEntity() throws ResponseStatusException, IllegalArgumentException{
         
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -53,5 +84,7 @@ public class UserService {
 
         return user;
     }
+
+
 
 }
