@@ -15,6 +15,7 @@ import { CocktailWithTags, EditCocktailTagsForm } from "../components/Forms/Edit
 import { EDIT_MODE, IDetailedCocktail } from "../components/Interfaces/IDetailedCocktail";
 import { SearchSection } from "../components/Common/SearchSection";
 import { useLocation } from "react-router-dom";
+import { fetchLikedIds, fetchUserData } from "../utils/commonFunctions";
 
 const Cocktail = lazy(() => import("../components/Entities/Cocktail"))
 
@@ -63,29 +64,9 @@ function CocktailPage() {
     }, [filterMode, userRole]);
 
     useEffect(() => {
-
-        async function getUserData() {
-            try {
-                const res = await api.get("user/me");
-                if(res.data && res.data.id) {
-                    setUserId(res.data.id);
-                    if(res.data.role){
-                        setUserRole(res.data.role);
-                    } else {
-                        setUserRole("USER");
-                    }
-                } else {
-                    console.log("User not found")
-                }
-            } catch(error) {
-                setError("Error fetching user");
-                console.error(error)
-            } 
-        }
-
         void getCocktails();
-        void getUserData();
-        void getLikedIds();
+        void fetchUserData(setUserId, setUserRole);
+        void fetchLikedIds(setLikedIds);
         setSearchText(searchValue);
     },[])
 
@@ -209,23 +190,11 @@ function CocktailPage() {
             if (res.data) {
                 setError('');
                 setCocktails(res.data);
-                //setFilteredCocktails(res.data);
             } else {
                 console.log("Cocktails not found")
             } 
         } catch(error) {
             setError("Error fetching cocktails");
-            console.error(error);
-        }
-    }
-
-    async function getLikedIds() {
-        try {
-            const res = await api.get("user/liked-ids");
-                setError('');
-                setLikedIds(res.data);
-        } catch(error) {
-            setError("Error fetching liked ids");
             console.error(error);
         }
     }

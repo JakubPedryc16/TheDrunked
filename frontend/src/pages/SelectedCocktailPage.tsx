@@ -1,6 +1,5 @@
-import { lazy, Suspense, useEffect, useState } from "react";
+import {useEffect, useState } from "react";
 import MainContent from "../components/Common/MainContent";
-import { Column, Columns } from "../styled-components/Common";
 
 
 import api from "../utils/api";
@@ -14,15 +13,7 @@ import { CocktailWithTags, EditCocktailTagsForm } from "../components/Forms/Edit
 import { EDIT_MODE, IDetailedCocktail } from "../components/Interfaces/IDetailedCocktail";
 
 import { useLocation } from "react-router-dom";
-
-const Cocktail = lazy(() => import("../components/Entities/Cocktail"))
-
-
-
-export enum FILTER_MODE {
-    ALL,
-    USER
-}
+import { fetchCocktail, fetchLikedIds, fetchUserData } from "../utils/commonFunctions";
 
 function SelectedCocktailPage() {
 
@@ -42,28 +33,9 @@ function SelectedCocktailPage() {
     const { cocktailId } = location.state || {};
 
     useEffect(() => {
-        async function getUserData() {
-            try {
-                const res = await api.get("user/me");
-                if(res.data && res.data.id) {
-                    setUserId(res.data.id);
-                    if(res.data.role){
-                        setUserRole(res.data.role);
-                    } else {
-                        setUserRole("USER");
-                    }
-                } else {
-                    console.log("User not found")
-                }
-            } catch(error) {
-                setError("Error fetching user");
-                console.error(error)
-            } 
-        }
-
-        void getCocktail(cocktailId);
-        void getUserData();
-        void getLikedIds();
+        void fetchCocktail(cocktailId, setSelectedCocktail, setError);
+        void fetchUserData(setUserId, setUserRole);
+        void fetchLikedIds(setLikedIds);
     },[])
 
     useEffect(() => {
@@ -152,33 +124,6 @@ function SelectedCocktailPage() {
             console.log(likedIds, cocktailId);
         }
     }
-    async function getCocktail(cocktailId: number) {
-        try {
-            const res = await api.get("user/cocktail", {
-                params: {id: cocktailId}
-            });
-            if (res.data) {
-                setError('');
-                setSelectedCocktail(res.data);
-            } else {
-                console.log("Cocktail not found")
-            } 
-        } catch(error) {
-            setError("Error fetching cocktail");
-            console.error(error);
-        }
-    }
-
-    async function getLikedIds() {
-        try {
-            const res = await api.get("user/liked-ids");
-                setError('');
-                setLikedIds(res.data);
-        } catch(error) {
-            setError("Error fetching liked ids");
-            console.error(error);
-        }
-    }
    
     return (
         <MainContent>
@@ -214,7 +159,6 @@ function SelectedCocktailPage() {
 }
 
 export default SelectedCocktailPage
-
 
 const DetailedContainer = styled.div`
     display: flex;

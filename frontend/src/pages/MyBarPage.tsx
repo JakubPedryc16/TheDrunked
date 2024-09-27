@@ -13,20 +13,14 @@ import { ItemContainer } from "../components/Common/ItemsContainer";
 import { Ingredient } from "../components/Entities/Ingredient";
 import { IIngredient } from "../components/Interfaces/IIngredients";
 import { useFetchData } from "../utils/useFetchData";
-
 const Cocktail = lazy(() => import("../components/Entities/Cocktail"))
-
-export enum FILTER_MODE {
-    ALL,
-    USER
-}
 
 function MyBarPage() {
 
-    const {data: cocktails, error: cocktailsError } = useFetchData<IDetailedCocktail[]>("user/cocktails");
+    const {data: cocktails} = useFetchData<IDetailedCocktail[]>("user/cocktails");
     const {data: likedIds} = useFetchData<number[]>("user/liked-ids");
     const {data: selectedIngredients, refetch: refetchSelectedIngredients} = useFetchData<IIngredient[]>("user/user-ingredients");
-    const {data: ingredients, error: ingredientsError } = useFetchData<IIngredient[]>("user/ingredients");
+    const {data: ingredients} = useFetchData<IIngredient[]>("user/ingredients");
 
     const [searchText, setSearchText] = useState<string>("");
     const [ingredientsSearch, setingredientsSearch] = useState<string>("");
