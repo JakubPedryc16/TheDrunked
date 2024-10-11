@@ -44,16 +44,16 @@ const Cocktail: React.FC<CocktailProps> = ({image, name, likes, tags, clickEvent
             <Image src={imageData} alt="Cocktail Image" loading = "lazy"/>
     
             <TagDiv>
+                <LikesDiv>
+                    <HeartIcon $isLiked={isLiked} />
+                    <LikesText $isLiked={isLiked}>{likes}</LikesText>
+                </LikesDiv>
                 {displayedTags.map((tag) => (
                     <Tag key={tag.id} {...tag} />
                 ))}
                 {remainingTagsCount > 0 && (
                     <RemainingTags>{`+${remainingTagsCount}`}</RemainingTags>
                 )}
-                <LikesDiv>
-                    <HeartIcon $isLiked={isLiked} />
-                    <LikesText>{likes}</LikesText>
-                </LikesDiv>
             </TagDiv>
 
             
@@ -73,13 +73,12 @@ const Image = styled.img`
 const TagDiv = styled.div`
     display: flex;
     flex-direction: row;
-
     justify-content: start;
     align-items: center;
 
     border-radius: 10px;
     gap: 5px;
-    padding-left: 20px;
+    padding: 0 15px 0 10px;
     background-color: rgba(0, 0, 0, 0.2);
 
     border-radius: 0px 0px 0px 00px;

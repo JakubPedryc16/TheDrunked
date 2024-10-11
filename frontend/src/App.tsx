@@ -12,6 +12,8 @@ import AddTagPage from "./pages/AddTagPage.tsx";
 import AddIngredientPage from "./pages/AddIngredientPage.tsx";
 import SelectedCocktailPage from "./pages/SelectedCocktailPage.tsx";
 import MyBarPage from "./pages/MyBarPage.tsx";
+import { ThemeProvider } from "styled-components";
+import theme from "./styled-components/theme.ts";
 
 
 
@@ -100,9 +102,11 @@ const AppContent = () => {
 function App() {
 
     return (
-        <BrowserRouter>
-            <AppContent/>
-        </BrowserRouter>
+        <ThemeProvider theme = {theme}>
+            <BrowserRouter>
+                <AppContent/>
+            </BrowserRouter>
+        </ThemeProvider>
     );
 }
 

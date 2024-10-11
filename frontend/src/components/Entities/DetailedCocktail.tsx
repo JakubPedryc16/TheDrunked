@@ -47,13 +47,13 @@ export const DetailedCocktail:React.FC<IDetailedCocktail> = (({
             </DescriptionDiv>
             <TagDiv>
                 {editable && <EditIconInteractive onClick={() => setEditMode(EDIT_MODE.TAGS)}/>}
+                <LikesDiv onClick={handleLike}>
+                    <HeartIconInteractive $isLiked={isLiked}/>
+                    <LikesText $isLiked={isLiked}>{likes}</LikesText>
+                </LikesDiv>
                 {Array.isArray(tags) && tags.map(tag => (
                     <Tag key={tag.id} {...tag}/>
                 ))}
-                <LikesDiv onClick={handleLike}>
-                    <HeartIconInteractive $isLiked={isLiked}/>
-                    <LikesText>{likes}</LikesText>
-                </LikesDiv>
             </TagDiv>
             <IngredientDiv>
                 {editable && <EditIconInteractive onClick={() => setEditMode(EDIT_MODE.INGREDIENTS)}/>}
@@ -65,9 +65,6 @@ export const DetailedCocktail:React.FC<IDetailedCocktail> = (({
         </CocktailDiv>
     );
 })
-
-
-
 
 const CocktailDiv = styled.div`
     display: flex;
@@ -87,7 +84,6 @@ const CocktailDiv = styled.div`
     
 `
 
-
 const IngredientDiv = styled.div`
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -103,8 +99,6 @@ const IngredientDiv = styled.div`
 
     ${borderStyle}
 `
-
-
 
 const TagDiv = styled.div`
     position: relative;
@@ -159,7 +153,6 @@ const Image = styled.img`
     height: 200px;
     border-radius: 10px;
 `
-
 
 const NameDiv = styled.div`
     position: relative;

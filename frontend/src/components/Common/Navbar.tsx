@@ -67,7 +67,7 @@ import styled from 'styled-components';
 import api from "../../utils/api";
 
 const NavContainer = styled.div`
-    background-color: rgb(37, 126, 116);
+    background-color: rgba(30, 230, 187, 0.5);
     color: rgb(240, 237, 238);
     font-size: 1rem;
 `

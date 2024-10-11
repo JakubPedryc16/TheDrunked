@@ -1,9 +1,9 @@
-import { FaEdit, FaHeart } from "react-icons/fa";
+import { FaEdit, FaRegHeart } from "react-icons/fa";
 import styled from "styled-components";
 
-export const LikesText = styled.div`
+export const LikesText = styled.div<HeartIconProps>`
     font-size: 14px;
-    color: white;
+    color: ${(props) => props.$isLiked ? props.theme.colors.icons : "rgba(255, 255, 255, 0.5)"};
     margin-left: 5px;
     width: 10px;
 `
@@ -13,10 +13,10 @@ export const EditIconInteractive = styled(FaEdit)`
     top: 5px;
     right: 10px;
     font-size: 1.5rem; 
-    color: rgba(85, 231, 217, 0.8);
+    color: ${(props) =>props.theme.colors.icons};
     
     &:hover {
-        color: rgba(85, 231, 217, 1);
+        transform: scale(1.1);
     }
 
     &:active {
@@ -26,8 +26,9 @@ export const EditIconInteractive = styled(FaEdit)`
 interface HeartIconProps{
     $isLiked: boolean;
 }
-export const HeartIconInteractive = styled(FaHeart)<HeartIconProps>`
-    color: ${(props) => props.$isLiked ? "rgba(85, 231, 217, 0.8)" : "rgba(255, 255, 255, 0.5)"};
+export const HeartIconInteractive = styled(FaRegHeart)<HeartIconProps>`
+    color: ${(props) => props.$isLiked ? props.theme.colors.icons : "rgba(255, 255, 255, 0.5)"};
+    /* color: ${(props) => props.$isLiked ? "rgba(85, 231, 217, 0.8)" : "rgba(255, 255, 255, 0.5)"}; */
     transition: color 0.3s, transform 0.2s;
     font-size: 1.5rem; 
 
@@ -42,8 +43,8 @@ export const HeartIconInteractive = styled(FaHeart)<HeartIconProps>`
 `;
 
 
-export const HeartIcon = styled(FaHeart)<HeartIconProps>`
-  color: ${(props) => props.$isLiked ? "rgba(85, 231, 217, 0.8)" : "rgba(255, 255, 255, 0.5)"};
+export const HeartIcon = styled(FaRegHeart)<HeartIconProps>`
+    color: ${(props) => props.$isLiked ? props.theme.colors.icons : "rgba(255, 255, 255, 0.5)"};
   font-size: 1.3rem; 
 `;
 
@@ -52,9 +53,6 @@ export const HeartIcon = styled(FaHeart)<HeartIconProps>`
 export const LikesDiv = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: center;
-  margin-left: auto; 
-  padding-right: 20px;
-
-
+  align-items: left;
+  margin-right: 10px; 
 `;

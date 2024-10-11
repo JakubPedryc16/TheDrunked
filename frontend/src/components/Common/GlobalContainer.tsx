@@ -17,7 +17,7 @@ const Wrapper = styled.div`
     width: 100vw;
     height: 100vh;
     margin: 0;
-    background-color: rgb(37, 48, 49);
+    background-color: ${(props) => props.theme.colors.primary};
     font-family: Inter, serif;
     font-size: 20px;
     color: rgb(240, 237, 238);

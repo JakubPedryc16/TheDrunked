@@ -274,7 +274,7 @@ const DetailColumn = styled.div`
     width: 40vw;
     height: 80vh;
 
-    background-color: rgba(0,0,0,0.2);
+    background-color: ${(props) => props.theme.colors.secondary};
     padding: 20px;
     border-radius: 20px;
 `
