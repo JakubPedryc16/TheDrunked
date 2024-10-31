@@ -75,7 +75,7 @@ public class UserService {
     private UserEntity getUserEntity() throws ResponseStatusException, IllegalArgumentException{
         
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication instanceof AnonymousAuthenticationToken) {
+        if (authentication instanceof AnonymousAuthenticationToken || authentication == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User Not Logged In");
         }
         String username= authentication.getName();;

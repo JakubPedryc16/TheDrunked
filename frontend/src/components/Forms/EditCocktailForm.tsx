@@ -76,8 +76,8 @@ export const EditCocktailForm:React.FC<Props & SimpleCocktail> = ({id, name, ima
                 image: fileRes ? fileRes.data : image,
                 description: newDescription
             }
-            const res = await api.put("user/cocktail/edit", editedCocktail)
-            //alert(res.data)
+            await api.put("user/cocktail/edit", editedCocktail)
+
 
             handleCocktailEdit(editedCocktail);
             setEditMode();
@@ -103,9 +103,11 @@ export const EditCocktailForm:React.FC<Props & SimpleCocktail> = ({id, name, ima
                             value={newName}
                             onChange={(event) => setNewName(event.target.value)}
                         />
+                        <label htmlFor="file">Upload</label>
                         <Input
                             type="file"
                             onChange={handleFileChange}
+                            id="file"
                         />
                         <Image src={imageBlob} alt="Cocktail Image"/>
                         <TextArea

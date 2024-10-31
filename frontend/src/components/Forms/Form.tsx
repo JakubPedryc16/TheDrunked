@@ -37,6 +37,7 @@ function Form(props: FormProps) {
                 setErrorMessage("Wrong email or password")
             }
         } catch (error) {
+            setErrorMessage("Network Error")
             alert(error)
         }
     };

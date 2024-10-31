@@ -75,10 +75,13 @@ export const AddIngredientForm = () => {
                     {errorMessage}
                     <InputsContainer>
                        
+                        <label htmlFor="file">Upload</label>
                         <FileInput 
                             type="file"
                             onChange={handleFileChange}
+                            id="file"
                         />
+
                         <Image src={imageBlob} alt="Cocktail Image"/>
 
                         <Input 

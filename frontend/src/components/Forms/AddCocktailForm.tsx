@@ -174,23 +174,24 @@ export const AddCocktailForm = () => {
                 <Column>
                     {errorMessage}
                     <InputsContainer>
-                       
-                        <FileInput 
+                        <label htmlFor="file">Upload</label>
+                        <FileInput
                             type="file"
                             onChange={handleFileChange}
+                            id="file"
                         />
                         <Image src={imageBlob} alt="Cocktail Image"/>
 
-                        <Input 
-                            value={name} 
+                        <Input
+                            value={name}
                             onChange={(event) => setName(event.target.value)}
                             placeholder="name"
                         />
-                        <TextArea 
-                            value={description} 
+                        <TextArea
+                            value={description}
                             onChange={(event) => setDescription(event.target.value)}
                             placeholder="description"
-                            
+
                         />
                     </InputsContainer>
 

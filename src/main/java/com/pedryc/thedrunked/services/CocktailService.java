@@ -1,13 +1,6 @@
 package com.pedryc.thedrunked.services;
 
-import com.pedryc.thedrunked.Dtos.FormCocktailDto;
-import com.pedryc.thedrunked.Dtos.HasIngredients;
-import com.pedryc.thedrunked.Dtos.HasTags;
-import com.pedryc.thedrunked.Dtos.CocktailIngredientDto;
-import com.pedryc.thedrunked.Dtos.DetailedCocktailDto;
-import com.pedryc.thedrunked.Dtos.EditCocktailDto;
-import com.pedryc.thedrunked.Dtos.EditCocktailIngredientsDto;
-import com.pedryc.thedrunked.Dtos.EditCocktailTagsDto;
+import com.pedryc.thedrunked.Dtos.*;
 import com.pedryc.thedrunked.entities.*;
 import com.pedryc.thedrunked.repositories.CocktailRepository;
 import com.pedryc.thedrunked.repositories.IngredientRepository;
@@ -27,7 +20,9 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @AllArgsConstructor
 @Service
@@ -74,9 +69,8 @@ public class CocktailService {
         CocktailEntity targetCocktail = cocktailRepository.findById(cocktailId)
                 .orElseThrow(() -> new IllegalArgumentException("Cocktail Not Found"));
 
-        
         UserEntity user = getCurrentUser();
-        if(user.getId() != targetCocktail.getUser().getId() && !user.getRole().equals("ADMIN")){
+        if(!Objects.equals(user.getId(), targetCocktail.getUser().getId()) && !user.getRole().equals("ADMIN")){
             throw new AccessDeniedException("You do not have permission to edit this cocktail.");
         }
 
@@ -109,7 +103,7 @@ public class CocktailService {
             .orElseThrow(() -> new IllegalArgumentException("Cocktail Not Found"));
     
         UserEntity user = getCurrentUser();
-        if(user.getId() != cocktail.getUser().getId() && !user.getRole().equals("ADMIN")){
+        if(!Objects.equals(user.getId(), cocktail.getUser().getId()) && !user.getRole().equals("ADMIN")){
             throw new AccessDeniedException("You do not have permission to edit this cocktail.");
         }
 
@@ -128,7 +122,7 @@ public class CocktailService {
         List<CocktailIngredientEntity> ingredients = getCocktailsIngredients(cocktailDto, cocktail);
 
         UserEntity user = getCurrentUser();
-        if(user.getId() != cocktail.getUser().getId() && !user.getRole().equals("ADMIN")){
+        if(!Objects.equals(user.getId(), cocktail.getUser().getId()) && !user.getRole().equals("ADMIN")){
             throw new AccessDeniedException("You do not have permission to edit this cocktail.");
         }
 
@@ -146,7 +140,7 @@ public class CocktailService {
         List<TagEntity> tags = getTags(cocktailDto);
 
         UserEntity user = getCurrentUser();
-        if(user.getId() != cocktail.getUser().getId() && !user.getRole().equals("ADMIN")){
+        if(!Objects.equals(user.getId(), cocktail.getUser().getId()) && !user.getRole().equals("ADMIN")){
             throw new AccessDeniedException("You do not have permission to edit this cocktail.");
         }
 
@@ -158,7 +152,7 @@ public class CocktailService {
     private UserEntity getCurrentUser() throws ResponseStatusException, IllegalArgumentException{
         
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication instanceof AnonymousAuthenticationToken) {
+        if (authentication instanceof AnonymousAuthenticationToken || authentication == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User Not Logged In");
         }
         String username= authentication.getName();;
@@ -174,7 +168,9 @@ public class CocktailService {
          ) {
 
         List<CocktailIngredientDto> ingredientDtos = cocktailDto.getIngredients();
-
+        if (ingredientDtos == null) {
+            return new ArrayList<>();
+        }
         List<CocktailIngredientEntity> ingredients = ingredientDtos.stream()
             .map(ingredientDto -> {
                 IngredientEntity ingredient = ingredientRepository.findById(ingredientDto.getId())
@@ -194,7 +190,12 @@ public class CocktailService {
     }
 
     private List<TagEntity> getTags(HasTags cocktailDto){
-        List<TagEntity> tags = cocktailDto.getTags().stream()
+
+        List<TagDto> tagDtos = cocktailDto.getTags();
+        if (tagDtos == null) {
+            tagDtos = new ArrayList<>();
+        }
+        List<TagEntity> tags = tagDtos.stream()
         .map(tagDto -> {
             TagEntity newTag = tagRepository.findById(tagDto.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Ingredient Not Found"));

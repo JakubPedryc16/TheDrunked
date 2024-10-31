@@ -42,7 +42,7 @@ export const Column = styled.div`
     gap: 3vw;
     width: 40vw;
 
-    background-color: ${(props) => props.theme.colors.secondary};
+    background-color: ${(props) => props.theme?.colors?.secondary || 'rgb(200, 200, 200)'};
     padding: 20px;
     border-radius: 20px;
 `

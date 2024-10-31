@@ -4,17 +4,22 @@ import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 @AllArgsConstructor
+@Setter
 @Getter
 public class FormCocktailDto implements HasTags, HasIngredients{
 
-    private final Long id;
-    private final String name;
-    private final String description;
-    private final String image;
-    private final List<TagDto> tags;
-    private final List<CocktailIngredientDto> ingredients;
+    private  Long id;
+    private  String name;
+    private  String description;
+    private  String image;
+    private  List<TagDto> tags;
+    private  List<CocktailIngredientDto> ingredients;
 
+    public FormCocktailDto() {
+
+    }
 }
 

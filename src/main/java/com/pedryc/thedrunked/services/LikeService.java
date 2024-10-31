@@ -70,10 +70,10 @@ public class LikeService {
     private UserEntity getUserEntity() throws ResponseStatusException, IllegalArgumentException{
         
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication instanceof AnonymousAuthenticationToken) {
+        if (authentication instanceof AnonymousAuthenticationToken || authentication == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User Not Logged In");
         }
-        String username= authentication.getName();;
+        String username= authentication.getName();
         UserEntity user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("User Not Found"));
 

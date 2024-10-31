@@ -4,4 +4,11 @@
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
   ],
+  "include": [
+    "src",
+    "src/setupTests.ts",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "vite.config.ts"
+  ]
 }
