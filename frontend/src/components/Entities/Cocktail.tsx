@@ -68,6 +68,7 @@ const Image = styled.img`
     object-fit: cover;
     width: 194px;
     height: 150px;
+    border-radius: 2px;
 
 `
 const TagDiv = styled.div`
@@ -81,7 +82,7 @@ const TagDiv = styled.div`
     padding: 0 15px 0 10px;
     background-color: rgba(0, 0, 0, 0.2);
 
-    border-radius: 0px 0px 0px 00px;
+    border-radius: 0px 0px 10px 0px;
 
     width: 194px;
     height: 50px;
@@ -94,12 +95,17 @@ const NameDiv = styled.div`
 
     height: 45px;
     width: 194px;
-    /* border-radius: 10px 10px 0 0; */
+    border-radius: 10px 0 0 0;
     background-color: rgba(0, 0, 0, 0.2);
     text-align: start;
     padding-left: 20px;
+    padding-right: 10px;
     font-size: 16px;
 
+    overflow: auto;
+    &::-webkit-scrollbar {
+        display: none; 
+    }
 `
 
 const RemainingTags = styled.div`

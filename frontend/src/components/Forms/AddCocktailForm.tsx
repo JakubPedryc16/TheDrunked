@@ -172,9 +172,10 @@ export const AddCocktailForm = () => {
         <form onSubmit={handleSubmitForm}>
             <Columns>
                 <Column>
-                    {errorMessage}
+
                     <InputsContainer>
-                        <label htmlFor="file">Upload</label>
+                        {errorMessage}
+                        <label htmlFor="file" hidden>Upload</label>
                         <FileInput
                             type="file"
                             onChange={handleFileChange}

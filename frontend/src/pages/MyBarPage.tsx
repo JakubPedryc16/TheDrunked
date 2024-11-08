@@ -98,14 +98,14 @@ function MyBarPage() {
                             onSearch={setingredientsSearch}
                             items={filteredIngredients}
                             renderItem={ingredient => (
-                                <Ingredient key={ingredient.id} clickEffect={() => addIngredient(ingredient)}  {...ingredient}/>
+                                <Ingredient key={ingredient.id} clickEffect={() => addIngredient(ingredient)}  border={true} {...ingredient}/>
                             )}
                             height="30vh"       
                         />
                     <ItemContainer 
                             title= "Selected Ingredients"
                             children = {Array.isArray(selectedIngredients) && selectedIngredients.map( ingredient => (
-                                <Ingredient key={ingredient.id} clickEffect={() => deleteIngredient(ingredient)}  {...ingredient}/>
+                                <Ingredient key={ingredient.id} clickEffect={() => deleteIngredient(ingredient)} border={true}  {...ingredient}/>
                             ))}
                         />
                 </Column>

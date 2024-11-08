@@ -4,5 +4,6 @@ export interface IIngredient{
     name: string;
     image: string;
     amount: string;
+    border?: Boolean;
     clickEffect?: () => void;
 }

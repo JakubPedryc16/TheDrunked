@@ -64,7 +64,7 @@ public class CocktailService {
         
         return cocktailEntities.stream().map(DetailedCocktailDto::new).toList();
     }
-
+    @Transactional
     public void deleteCocktail(long cocktailId) throws IllegalArgumentException {
         CocktailEntity targetCocktail = cocktailRepository.findById(cocktailId)
                 .orElseThrow(() -> new IllegalArgumentException("Cocktail Not Found"));

@@ -42,9 +42,14 @@ export const Navbar = () => {
           <NavListItem>
             <NavLink href="/cocktails">Cocktails</NavLink>
           </NavListItem>
-
           <NavListItem>
-            <NavLink href="/add-cocktail">Add Cocktail</NavLink>
+            <NavLink href="/my-bar">My Bar</NavLink>
+          </NavListItem>
+          <NavListItem>
+            <NavLink href="/add-cocktail">New Cocktail</NavLink>
+          </NavListItem>
+          <NavListItem>
+            <NavLink href="/auth/logout">Logout</NavLink>
           </NavListItem>
           {role === "ADMIN" && (
             <>
@@ -54,6 +59,7 @@ export const Navbar = () => {
               <NavListItem>
                 <NavLink href="/add-tag">Tags</NavLink>
               </NavListItem>
+              
             </>
           )}
         </NavList>

@@ -56,9 +56,16 @@ function Home() {
         <MainContent>
             <Columns>
                 <Column>
-                    <ImageButton onClick={() => (navigate('/cocktails' , {state: {searchValue: "sweet"}}))} label="Sweet Cocktails" imageSrc="pic1.jpg"/>
-                    <ImageButton onClick={() => (navigate('/cocktails' , {state: {searchValue: "sour"}}))} label="Sour Cocktails" imageSrc="pic2.jpg"/>
-
+                    <RowPlacement>
+                        <ColumnPlacement>
+                            <ImageButton onClick={() => (navigate('/cocktails'))} label="Search Cocktails" imageSrc="pic1.jpg" size="M"/>
+                            <ImageButton onClick={() => (navigate('/my-bar' ))} label="My Bar" imageSrc="pic2.jpg" size="M"/>
+                        </ColumnPlacement>
+                        <ColumnPlacement>
+                            <ImageButton onClick={() => (navigate('/cocktails' , {state: {searchValue: "sweet"}}))} label="Sweet Cocktails" imageSrc="pic3.jpg"/>
+                            <ImageButton onClick={() => (navigate('/cocktails' , {state: {searchValue: "sour"}}))} label="Sour Cocktails" imageSrc="pic4.jpg"/>
+                        </ColumnPlacement>
+                    </RowPlacement>
                 </Column>
                 <Column>
                     {error}
@@ -88,11 +95,25 @@ const CocktailsContainer = styled.div`
     gap: 10px;
 
     overflow: auto;
-    height: 60vh;
+    height: 70vh;
     width: 35vw;
 
+    padding-top: 50px;
     &::-webkit-scrollbar {
         display: none; 
     }
+`
+
+const RowPlacement = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 3vw;
+`
+const ColumnPlacement = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3vw;
 `
 

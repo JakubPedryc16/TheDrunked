@@ -15,9 +15,9 @@ export const borderColorStyle = css`
 
 
 export const borderInteractiveStyle = css`
-    border: 2px solid rgba(37, 48, 49, 0.3);
-    border-radius: 5px;
+    border: 2px solid rgba(0, 0, 0, 0);
     box-sizing: border-box;
+    border-radius: 10px 0px 10px 0px;
     
     &:hover {
         border-color: rgba(37, 126, 116, 0.5);
@@ -39,12 +39,19 @@ export const Column = styled.div`
     flex-direction: column;
 
     align-items: center;
+
     gap: 3vw;
     width: 40vw;
+    max-height: 80vh;
 
     background-color: ${(props) => props.theme?.colors?.secondary || 'rgb(200, 200, 200)'};
     padding: 20px;
     border-radius: 20px;
+
+    overflow: auto;
+    &::-webkit-scrollbar {
+        display: none; 
+    }
 `
 
 export const Image = styled.img`
@@ -57,11 +64,12 @@ export const InputsContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-self: center;
-
+    justify-content: flex-start;
     align-items: center;
     gap: 10px;
     width: 80%;
     margin: 10px;
+
 `
 export const TextArea = styled.textarea`
   width: 100%;

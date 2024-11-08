@@ -76,6 +76,11 @@ const Section = styled.div`
     align-items: center;
 
     margin: 10px;
+
+    overflow: auto;
+    &::-webkit-scrollbar {
+        display: none; 
+    }
 `;
 
 const Elem = styled.div`
