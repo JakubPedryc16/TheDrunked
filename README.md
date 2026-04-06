@@ -40,22 +40,35 @@ It provides JWT-based authentication, user-owned recipes, ingredient-based disco
 
 ### Backend (`src/main/resources/application.properties`)
 
-Configure at least:
+Backend configuration expects environment variables:
 
-- `spring.datasource.url`
-- `spring.datasource.username`
-- `spring.datasource.password`
-- `spring.app.jwtSecret`
-- `file.upload-dir`
+- `DB_URL` (for example `jdbc:postgresql://localhost:5432/TheDrunked`)
+- `DB_USERNAME`
+- `DB_PASSWORD`
+- `JWT_SECRET`
+- `JWT_EXPIRATION_MS` (optional, default: `3000000`)
+- `UPLOAD_DIR`
 
-Current defaults are intended for local development only.
+Do not commit production credentials or secrets to the repository.
 
 ### Frontend (`frontend/.env`)
 
-Create/update:
+Create `.env` from template and adjust values if needed:
 
 ```bash
-VITE_API_URL="http://localhost:8080/"
+cp frontend/.env.example frontend/.env
+```
+
+Windows (PowerShell):
+
+```powershell
+Copy-Item frontend/.env.example frontend/.env
+```
+
+Template content:
+
+```bash
+VITE_API_URL=http://localhost:8080/
 ```
 
 ## Running Locally
